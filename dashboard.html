@@ -1,1 +1,939 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Dashboard | EduLink Zambia</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f8fc;
+      color: #172033;
+    }
+
+    /* HEADER */
+
+    header {
+      background: #0756a3;
+      color: white;
+
+      padding: 16px 20px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .logout-button {
+      background: white;
+      color: #0756a3;
+
+      border: none;
+
+      padding: 9px 14px;
+
+      border-radius: 7px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+
+    /* MAIN */
+
+    .container {
+      max-width: 1100px;
+
+      margin: auto;
+
+      padding: 30px 20px;
+    }
+
+
+    /* WELCOME */
+
+    .welcome {
+      background:
+        linear-gradient(
+          135deg,
+          #0756a3,
+          #0879d9
+        );
+
+      color: white;
+
+      padding: 30px 25px;
+
+      border-radius: 15px;
+
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      font-size: 28px;
+
+      margin-bottom: 8px;
+    }
+
+    .welcome p {
+      opacity: 0.9;
+
+      line-height: 1.6;
+    }
+
+    .account-badge {
+      display: inline-block;
+
+      margin-top: 15px;
+
+      background: rgba(255,255,255,0.18);
+
+      padding: 7px 12px;
+
+      border-radius: 20px;
+
+      font-size: 13px;
+    }
+
+
+    /* SECTION TITLE */
+
+    .section-title {
+      margin: 25px 0 15px;
+
+      color: #0756a3;
+
+      font-size: 21px;
+    }
+
+
+    /* SERVICES */
+
+    .services {
+      display: grid;
+
+      grid-template-columns: 1fr;
+
+      gap: 15px;
+    }
+
+    .service-card {
+      background: white;
+
+      padding: 22px;
+
+      border-radius: 12px;
+
+      text-decoration: none;
+
+      color: #172033;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,0.06);
+
+      transition: 0.2s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-3px);
+    }
+
+    .service-icon {
+      font-size: 35px;
+
+      margin-bottom: 12px;
+    }
+
+    .service-card h3 {
+      color: #0756a3;
+
+      margin-bottom: 7px;
+    }
+
+    .service-card p {
+      color: #667085;
+
+      font-size: 14px;
+
+      line-height: 1.5;
+    }
+
+
+    /* PROFILE */
+
+    .profile-card {
+      background: white;
+
+      padding: 22px;
+
+      border-radius: 12px;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,0.06);
+
+      margin-top: 20px;
+    }
+
+    .profile-row {
+      display: flex;
+
+      justify-content: space-between;
+
+      gap: 15px;
+
+      padding: 12px 0;
+
+      border-bottom: 1px solid #eaecf0;
+    }
+
+    .profile-row:last-child {
+      border-bottom: none;
+    }
+
+    .profile-label {
+      color: #667085;
+
+      font-size: 14px;
+    }
+
+    .profile-value {
+      font-weight: bold;
+
+      text-align: right;
+    }
+
+
+    /* COMING SOON */
+
+    .coming-soon {
+      margin-top: 25px;
+
+      background: #e8f2ff;
+
+      padding: 22px;
+
+      border-radius: 12px;
+
+      text-align: center;
+    }
+
+    .coming-soon h2 {
+      color: #0756a3;
+
+      margin-bottom: 8px;
+    }
+
+    .coming-soon p {
+      color: #667085;
+
+      font-size: 14px;
+
+      line-height: 1.5;
+    }
+
+
+    /* LOADING */
+
+    #loading {
+      text-align: center;
+
+      padding: 80px 20px;
+
+      color: #667085;
+    }
+
+
+    /* ERROR */
+
+    #error {
+      display: none;
+
+      text-align: center;
+
+      padding: 50px 20px;
+    }
+
+    #error h2 {
+      color: #b42318;
+
+      margin-bottom: 10px;
+    }
+
+
+    /* FOOTER */
+
+    footer {
+      background: #101828;
+
+      color: white;
+
+      text-align: center;
+
+      padding: 25px;
+
+      margin-top: 35px;
+    }
+
+    footer p {
+      color: #d0d5dd;
+
+      margin-top: 7px;
+
+      font-size: 13px;
+    }
+
+
+    /* DESKTOP */
+
+    @media (min-width: 650px) {
+
+      .services {
+        grid-template-columns:
+          repeat(2, 1fr);
+      }
+
+      .welcome h1 {
+        font-size: 34px;
+      }
+
+    }
+
+    @media (min-width: 900px) {
+
+      .services {
+        grid-template-columns:
+          repeat(4, 1fr);
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+  <div class="logo">
+    🎓 EduLink Zambia
+  </div>
+
+  <button
+    class="logout-button"
+    onclick="logout()">
+
+    Logout
+
+  </button>
+
+</header>
+
+
+<!-- LOADING -->
+
+<div id="loading">
+
+  <h2>Loading your dashboard...</h2>
+
+  <p>Please wait.</p>
+
+</div>
+
+
+<!-- ERROR -->
+
+<div id="error">
+
+  <h2>Unable to load dashboard</h2>
+
+  <p id="errorMessage"></p>
+
+  <br>
+
+  <a href="login.html">
+    Return to Login
+  </a>
+
+</div>
+
+
+<!-- DASHBOARD -->
+
+<main
+  class="container"
+  id="dashboard"
+  style="display:none;">
+
+
+  <!-- WELCOME -->
+
+  <section class="welcome">
+
+    <h1>
+      Welcome, <span id="userName">Student</span> 👋
+    </h1>
+
+    <p>
+      Your EduLink Zambia dashboard.
+      Find opportunities, resources and services
+      designed for students.
+    </p>
+
+    <div
+      class="account-badge"
+      id="accountType">
+
+      Student Account
+
+    </div>
+
+  </section>
+
+
+  <!-- SERVICES -->
+
+  <h2 class="section-title">
+    What would you like to do?
+  </h2>
+
+
+  <section class="services">
+
+
+    <a
+      href="index.html#institutions"
+      class="service-card">
+
+      <div class="service-icon">
+        🎓
+      </div>
+
+      <h3>
+        Universities
+      </h3>
+
+      <p>
+        Explore universities and colleges
+        across Zambia.
+      </p>
+
+    </a>
+
+
+    <a
+      href="programs.html"
+      class="service-card">
+
+      <div class="service-icon">
+        📚
+      </div>
+
+      <h3>
+        Programs
+      </h3>
+
+      <p>
+        Search programs and discover
+        what you can study.
+      </p>
+
+    </a>
+
+
+    <a
+      href="accommodation.html"
+      class="service-card">
+
+      <div class="service-icon">
+        🏠
+      </div>
+
+      <h3>
+        Accommodation
+      </h3>
+
+      <p>
+        Find student accommodation
+        near your institution.
+      </p>
+
+    </a>
+
+
+    <a
+      href="#tutors"
+      class="service-card">
+
+      <div class="service-icon">
+        👨‍🏫
+      </div>
+
+      <h3>
+        Find a Tutor
+      </h3>
+
+      <p>
+        Connect with tutors and
+        peer support.
+      </p>
+
+    </a>
+
+
+  </section>
+
+
+  <!-- PROFILE -->
+
+  <h2 class="section-title">
+    My Profile
+  </h2>
+
+
+  <section class="profile-card">
+
+
+    <div class="profile-row">
+
+      <span class="profile-label">
+        Full Name
+      </span>
+
+      <span
+        class="profile-value"
+        id="profileName">
+
+        -
+
+      </span>
+
+    </div>
+
+
+    <div class="profile-row">
+
+      <span class="profile-label">
+        Email
+      </span>
+
+      <span
+        class="profile-value"
+        id="profileEmail">
+
+        -
+
+      </span>
+
+    </div>
+
+
+    <div class="profile-row">
+
+      <span class="profile-label">
+        Account Type
+      </span>
+
+      <span
+        class="profile-value"
+        id="profileType">
+
+        -
+
+      </span>
+
+    </div>
+
+
+    <div class="profile-row">
+
+      <span class="profile-label">
+        Institution
+      </span>
+
+      <span
+        class="profile-value"
+        id="profileInstitution">
+
+        -
+
+      </span>
+
+    </div>
+
+
+    <div class="profile-row">
+
+      <span class="profile-label">
+        Phone
+      </span>
+
+      <span
+        class="profile-value"
+        id="profilePhone">
+
+        -
+
+      </span>
+
+    </div>
+
+
+  </section>
+
+
+  <!-- COMING SOON -->
+
+  <section class="coming-soon">
+
+    <h2>
+      🚀 More Coming Soon
+    </h2>
+
+    <p>
+      EduLink will soon allow students to connect
+      with tutors, receive peer support, find
+      scholarships, discover jobs and internships,
+      and much more.
+    </p>
+
+  </section>
+
+
+</main>
+
+
+<!-- FOOTER -->
+
+<footer>
+
+  <h3>
+    🎓 EduLink Zambia
+  </h3>
+
+  <p>
+    Connecting Students. Connecting Opportunities.
+  </p>
+
+  <p>
+    © 2026 EduLink Zambia
+  </p>
+
+</footer>
+
+
+<script>
+
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+
+const SUPABASE_URL =
+  "https://doezgqeqqkqbpdjhsbdj.supabase.co/rest/v1/";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_X7zw25SKdYhokEyhF-SmqA_qkZgWW8l";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================================
+   LOAD DASHBOARD
+========================================= */
+
+
+async function loadDashboard() {
+
+  try {
+
+
+    /*
+      Check current login session.
+    */
+
+
+    const {
+      data: {
+        session
+      },
+      error: sessionError
+    } =
+      await supabaseClient
+        .auth
+        .getSession();
+
+
+    if (sessionError) {
+
+      throw sessionError;
+
+    }
+
+
+    /*
+      If there is no session,
+      send user back to login.
+    */
+
+
+    if (!session) {
+
+      window.location.href =
+        "login.html";
+
+      return;
+
+    }
+
+
+    const user =
+      session.user;
+
+
+    /*
+      Get user's profile.
+    */
+
+
+    const {
+      data: profile,
+      error: profileError
+    } =
+      await supabaseClient
+        .from("profiles")
+        .select("*")
+        .eq("id", user.id)
+        .single();
+
+
+    if (profileError) {
+
+      console.error(
+        profileError
+      );
+
+      /*
+        We can still show basic
+        account information.
+      */
+
+      displayUser(
+        user,
+        null
+      );
+
+    } else {
+
+      displayUser(
+        user,
+        profile
+      );
+
+    }
+
+
+  } catch (error) {
+
+    console.error(error);
+
+
+    document
+      .getElementById("loading")
+      .style.display = "none";
+
+
+    document
+      .getElementById("error")
+      .style.display = "block";
+
+
+    document
+      .getElementById("errorMessage")
+      .textContent =
+        error.message ||
+        "Something went wrong.";
+
+  }
+
+}
+
+
+/* =========================================
+   DISPLAY USER
+========================================= */
+
+
+function displayUser(
+  user,
+  profile
+) {
+
+
+  const name =
+    profile?.full_name ||
+    user.user_metadata?.full_name ||
+    "EduLink User";
+
+
+  const type =
+    profile?.account_type ||
+    user.user_metadata?.account_type ||
+    "student";
+
+
+  const institution =
+    profile?.institution ||
+    user.user_metadata?.institution ||
+    "Not provided";
+
+
+  const phone =
+    profile?.phone ||
+    user.user_metadata?.phone ||
+    "Not provided";
+
+
+  const formattedType =
+    type.charAt(0).toUpperCase() +
+    type.slice(1);
+
+
+  document
+    .getElementById("userName")
+    .textContent = name;
+
+
+  document
+    .getElementById("accountType")
+    .textContent =
+      formattedType +
+      " Account";
+
+
+  document
+    .getElementById("profileName")
+    .textContent = name;
+
+
+  document
+    .getElementById("profileEmail")
+    .textContent =
+      user.email || "-";
+
+
+  document
+    .getElementById("profileType")
+    .textContent =
+      formattedType;
+
+
+  document
+    .getElementById("profileInstitution")
+    .textContent =
+      institution;
+
+
+  document
+    .getElementById("profilePhone")
+    .textContent =
+      phone;
+
+
+  document
+    .getElementById("loading")
+    .style.display = "none";
+
+
+  document
+    .getElementById("dashboard")
+    .style.display = "block";
+
+}
+
+
+/* =========================================
+   LOGOUT
+========================================= */
+
+
+async function logout() {
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .auth
+      .signOut();
+
+
+  if (error) {
+
+    alert(
+      "Unable to log out: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  window.location.href =
+    "login.html";
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+
+loadDashboard();
+
+
+</script>
+
+
+</body>
+
+  </html>
