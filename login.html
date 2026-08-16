@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
+
+  <title>Login | EduLink Zambia</title>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #f5f8fc;
+      color: #172033;
+    }
+
+    /* HEADER */
+
+    header {
+      background: #0756a3;
+      color: white;
+
+      padding: 16px 20px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 21px;
+      font-weight: bold;
+    }
+
+    .home-link {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+
+    /* PAGE */
+
+    .page {
+      min-height: calc(100vh - 65px);
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      padding: 30px 18px;
+    }
+
+
+    /* AUTH CARD */
+
+    .auth-card {
+      width: 100%;
+      max-width: 450px;
+
+      background: white;
+
+      padding: 30px 25px;
+
+      border-radius: 15px;
+
+      box-shadow:
+        0 5px 25px rgba(0,0,0,0.08);
+    }
+
+
+    .brand {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    .brand-icon {
+      width: 70px;
+      height: 70px;
+
+      background: #e8f2ff;
+
+      border-radius: 50%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      margin: 0 auto 15px;
+
+      font-size: 35px;
+    }
+
+    .brand h1 {
+      color: #0756a3;
+      font-size: 27px;
+      margin-bottom: 7px;
+    }
+
+    .brand p {
+      color: #667085;
+      font-size: 14px;
+    }
+
+
+    /* TABS */
+
+    .tabs {
+      display: flex;
+
+      background: #f2f4f7;
+
+      padding: 4px;
+
+      border-radius: 9px;
+
+      margin-bottom: 25px;
+    }
+
+    .tab {
+      width: 50%;
+
+      padding: 11px;
+
+      border: none;
+
+      background: transparent;
+
+      border-radius: 7px;
+
+      cursor: pointer;
+
+      font-weight: bold;
+
+      color: #667085;
+    }
+
+    .tab.active {
+      background: white;
+      color: #0756a3;
+
+      box-shadow:
+        0 2px 6px rgba(0,0,0,0.08);
+    }
+
+
+    /* ACCOUNT TYPE */
+
+    .account-title {
+      font-size: 14px;
+      font-weight: bold;
+
+      margin-bottom: 10px;
+    }
+
+    .account-types {
+      display: grid;
+
+      grid-template-columns:
+        repeat(3, 1fr);
+
+      gap: 8px;
+
+      margin-bottom: 20px;
+    }
+
+    .account-type {
+      border: 1px solid #d0d5dd;
+
+      background: white;
+
+      padding: 12px 5px;
+
+      border-radius: 8px;
+
+      text-align: center;
+
+      cursor: pointer;
+
+      font-size: 12px;
+    }
+
+    .account-type span {
+      display: block;
+      font-size: 24px;
+      margin-bottom: 5px;
+    }
+
+    .account-type.active {
+      border-color: #0756a3;
+
+      background: #e8f2ff;
+
+      color: #0756a3;
+    }
+
+
+    /* FORM */
+
+    .form-group {
+      margin-bottom: 17px;
+    }
+
+    .form-group label {
+      display: block;
+
+      margin-bottom: 7px;
+
+      font-size: 14px;
+
+      font-weight: bold;
+    }
+
+    .form-group input {
+
+      width: 100%;
+
+      padding: 13px;
+
+      border: 1px solid #d0d5dd;
+
+      border-radius: 8px;
+
+      outline: none;
+
+      font-size: 15px;
+    }
+
+    .form-group input:focus {
+      border-color: #0756a3;
+    }
+
+
+    /* PASSWORD */
+
+    .password-box {
+      position: relative;
+    }
+
+    .password-box input {
+      padding-right: 50px;
+    }
+
+    .show-password {
+
+      position: absolute;
+
+      right: 12px;
+
+      top: 50%;
+
+      transform: translateY(-50%);
+
+      border: none;
+
+      background: transparent;
+
+      cursor: pointer;
+
+      font-size: 18px;
+    }
+
+
+    /* FORGOT */
+
+    .forgot {
+      display: block;
+
+      text-align: right;
+
+      margin-top: -7px;
+
+      margin-bottom: 20px;
+
+      color: #0756a3;
+
+      text-decoration: none;
+
+      font-size: 13px;
+    }
+
+
+    /* BUTTON */
+
+    .submit-button {
+
+      width: 100%;
+
+      padding: 14px;
+
+      background: #0756a3;
+
+      color: white;
+
+      border: none;
+
+      border-radius: 8px;
+
+      font-size: 16px;
+
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .submit-button:hover {
+      background: #064987;
+    }
+
+
+    /* DIVIDER */
+
+    .divider {
+
+      display: flex;
+
+      align-items: center;
+
+      gap: 10px;
+
+      margin: 23px 0;
+
+      color: #98a2b3;
+
+      font-size: 12px;
+    }
+
+    .divider::before,
+    .divider::after {
+
+      content: "";
+
+      flex: 1;
+
+      height: 1px;
+
+      background: #eaecf0;
+    }
+
+
+    /* DEMO MESSAGE */
+
+    .message {
+
+      display: none;
+
+      margin-top: 15px;
+
+      padding: 12px;
+
+      background: #ecfdf3;
+
+      color: #027a48;
+
+      border-radius: 7px;
+
+      text-align: center;
+
+      font-size: 13px;
+    }
+
+
+    /* FOOTER */
+
+    .footer-text {
+
+      text-align: center;
+
+      color: #667085;
+
+      font-size: 13px;
+
+      line-height: 1.6;
+
+    }
+
+    .footer-text a {
+
+      color: #0756a3;
+
+      font-weight: bold;
+
+      text-decoration: none;
+    }
+
+
+    /* REGISTER ONLY */
+
+    #registerFields {
+      display: none;
+    }
+
+
+    @media (min-width: 600px) {
+
+      .auth-card {
+        padding: 35px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<!-- HEADER -->
+
+<header>
+
+  <div class="logo">
+    🎓 EduLink Zambia
+  </div>
+
+  <a
+    href="index.html"
+    class="home-link">
+
+    ← Home
+
+  </a>
+
+</header>
+
+
+
+<!-- PAGE -->
+
+<main class="page">
+
+
+  <section class="auth-card">
+
+
+    <!-- BRAND -->
+
+    <div class="brand">
+
+      <div class="brand-icon">
+        🎓
+      </div>
+
+      <h1>Welcome to EduLink</h1>
+
+      <p>
+        Connecting Students. Connecting Opportunities.
+      </p>
+
+    </div>
+
+
+
+    <!-- LOGIN / REGISTER TABS -->
+
+    <div class="tabs">
+
+      <button
+        class="tab active"
+        id="loginTab"
+        onclick="showLogin()">
+
+        Login
+
+      </button>
+
+
+      <button
+        class="tab"
+        id="registerTab"
+        onclick="showRegister()">
+
+        Create Account
+
+      </button>
+
+    </div>
+
+
+
+    <!-- ACCOUNT TYPE -->
+
+    <div class="account-title">
+
+      I am a...
+
+    </div>
+
+
+    <div class="account-types">
+
+
+      <div
+        class="account-type active"
+        onclick="selectAccount(this, 'Student')">
+
+        <span>👨‍🎓</span>
+
+        Student
+
+      </div>
+
+
+      <div
+        class="account-type"
+        onclick="selectAccount(this, 'Tutor')">
+
+        <span>👨‍🏫</span>
+
+        Tutor
+
+      </div>
+
+
+      <div
+        class="account-type"
+        onclick="selectAccount(this, 'Landlord')">
+
+        <span>🏠</span>
+
+        Landlord
+
+      </div>
+
+
+    </div>
+
+
+
+    <!-- FORM -->
+
+    <form
+      id="authForm"
+      onsubmit="handleSubmit(event)">
+
+
+      <!-- REGISTER FIELDS -->
+
+      <div id="registerFields">
+
+
+        <div class="form-group">
+
+          <label for="fullName">
+            Full Name
+          </label>
+
+          <input
+            type="text"
+            id="fullName"
+            placeholder="Enter your full name">
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="phone">
+            Phone Number
+          </label>
+
+          <input
+            type="tel"
+            id="phone"
+            placeholder="e.g. +260 97 123 4567">
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label for="institution">
+
+            University / College
+
+          </label>
+
+          <input
+            type="text"
+            id="institution"
+            placeholder="Enter your institution">
+
+        </div>
+
+
+      </div>
+
+
+
+      <!-- EMAIL -->
+
+      <div class="form-group">
+
+        <label for="email">
+          Email Address
+        </label>
+
+        <input
+          type="email"
+          id="email"
+          placeholder="Enter your email"
+          required>
+
+      </div>
+
+
+
+      <!-- PASSWORD -->
+
+      <div class="form-group">
+
+        <label for="password">
+          Password
+        </label>
+
+        <div class="password-box">
+
+          <input
+            type="password"
+            id="password"
+            placeholder="Enter your password"
+            required>
+
+          <button
+            type="button"
+            class="show-password"
+            onclick="togglePassword()">
+
+            👁️
+
+          </button>
+
+        </div>
+
+      </div>
+
+
+
+      <!-- FORGOT -->
+
+      <a
+        href="#"
+        class="forgot"
+        id="forgotPassword">
+
+        Forgot password?
+
+      </a>
+
+
+
+      <!-- SUBMIT -->
+
+      <button
+        type="submit"
+        class="submit-button"
+        id="submitButton">
+
+        Login
+
+      </button>
+
+
+      <div
+        class="message"
+        id="message">
+
+      </div>
+
+
+    </form>
+
+
+
+    <div class="divider">
+      EduLink Zambia
+    </div>
+
+
+
+    <!-- FOOTER -->
+
+    <div class="footer-text">
+
+      By creating an account, you agree to use
+      EduLink Zambia responsibly.
+
+      <br><br>
+
+      <a href="index.html">
+        Continue browsing without an account
+      </a>
+
+    </div>
+
+
+  </section>
+
+
+</main>
+
+
+
+<script>
+
+
+let selectedAccount = "Student";
+
+let isRegister = false;
+
+
+
+/* SELECT ACCOUNT TYPE */
+
+function selectAccount(element, type) {
+
+  let accountTypes =
+    document.querySelectorAll(".account-type");
+
+
+  accountTypes.forEach(function(item) {
+
+    item.classList.remove("active");
+
+  });
+
+
+  element.classList.add("active");
+
+
+  selectedAccount = type;
+
+}
+
+
+
+/* SHOW LOGIN */
+
+function showLogin() {
+
+  isRegister = false;
+
+
+  document
+    .getElementById("loginTab")
+    .classList.add("active");
+
+
+  document
+    .getElementById("registerTab")
+    .classList.remove("active");
+
+
+  document
+    .getElementById("registerFields")
+    .style.display = "none";
+
+
+  document
+    .getElementById("submitButton")
+    .textContent = "Login";
+
+
+  document
+    .getElementById("forgotPassword")
+    .style.display = "block";
+
+
+  clearMessage();
+
+}
+
+
+
+/* SHOW REGISTER */
+
+function showRegister() {
+
+  isRegister = true;
+
+
+  document
+    .getElementById("registerTab")
+    .classList.add("active");
+
+
+  document
+    .getElementById("loginTab")
+    .classList.remove("active");
+
+
+  document
+    .getElementById("registerFields")
+    .style.display = "block";
+
+
+  document
+    .getElementById("submitButton")
+    .textContent = "Create Account";
+
+
+  document
+    .getElementById("forgotPassword")
+    .style.display = "none";
+
+
+  clearMessage();
+
+}
+
+
+
+/* SHOW / HIDE PASSWORD */
+
+function togglePassword() {
+
+  let password =
+    document.getElementById("password");
+
+  let button =
+    document.querySelector(".show-password");
+
+
+  if (password.type === "password") {
+
+    password.type = "text";
+
+    button.textContent = "🙈";
+
+  } else {
+
+    password.type = "password";
+
+    button.textContent = "👁️";
+
+  }
+
+}
+
+
+
+/* FORM */
+
+function handleSubmit(event) {
+
+  event.preventDefault();
+
+
+  let message =
+    document.getElementById("message");
+
+
+  if (isRegister) {
+
+    let name =
+      document
+        .getElementById("fullName")
+        .value
+        .trim();
+
+
+    let phone =
+      document
+        .getElementById("phone")
+        .value
+        .trim();
+
+
+    let institution =
+      document
+        .getElementById("institution")
+        .value
+        .trim();
+
+
+    if (
+      name === "" ||
+      phone === "" ||
+      institution === ""
+    ) {
+
+      showMessage(
+        "Please complete all registration fields."
+      );
+
+      return;
+
+    }
+
+
+    showMessage(
+      "Account interface ready! We will connect this to the secure EduLink database next."
+    );
+
+
+  } else {
+
+    showMessage(
+      "Login interface ready! Secure authentication will be connected next."
+    );
+
+  }
+
+}
+
+
+
+/* MESSAGE */
+
+function showMessage(text) {
+
+  let message =
+    document.getElementById("message");
+
+
+  message.textContent = text;
+
+  message.style.display = "block";
+
+}
+
+
+
+/* CLEAR MESSAGE */
+
+function clearMessage() {
+
+  let message =
+    document.getElementById("message");
+
+
+  message.textContent = "";
+
+  message.style.display = "none";
+
+}
+
+
+</script>
+
+
+</body>
+
+  </html>
