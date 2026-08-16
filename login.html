@@ -11,6 +11,8 @@
 
   <title>Login | EduLink Zambia</title>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
 
     * {
@@ -26,12 +28,9 @@
       color: #172033;
     }
 
-    /* HEADER */
-
     header {
       background: #0756a3;
       color: white;
-
       padding: 16px 20px;
 
       display: flex;
@@ -50,9 +49,6 @@
       font-size: 14px;
     }
 
-
-    /* PAGE */
-
     .page {
       min-height: calc(100vh - 65px);
 
@@ -62,9 +58,6 @@
 
       padding: 30px 18px;
     }
-
-
-    /* AUTH CARD */
 
     .auth-card {
       width: 100%;
@@ -79,7 +72,6 @@
       box-shadow:
         0 5px 25px rgba(0,0,0,0.08);
     }
-
 
     .brand {
       text-align: center;
@@ -113,9 +105,6 @@
       color: #667085;
       font-size: 14px;
     }
-
-
-    /* TABS */
 
     .tabs {
       display: flex;
@@ -155,24 +144,16 @@
         0 2px 6px rgba(0,0,0,0.08);
     }
 
-
-    /* ACCOUNT TYPE */
-
     .account-title {
       font-size: 14px;
       font-weight: bold;
-
       margin-bottom: 10px;
     }
 
     .account-types {
       display: grid;
-
-      grid-template-columns:
-        repeat(3, 1fr);
-
+      grid-template-columns: repeat(3, 1fr);
       gap: 8px;
-
       margin-bottom: 20px;
     }
 
@@ -200,14 +181,9 @@
 
     .account-type.active {
       border-color: #0756a3;
-
       background: #e8f2ff;
-
       color: #0756a3;
     }
-
-
-    /* FORM */
 
     .form-group {
       margin-bottom: 17px;
@@ -215,16 +191,12 @@
 
     .form-group label {
       display: block;
-
       margin-bottom: 7px;
-
       font-size: 14px;
-
       font-weight: bold;
     }
 
     .form-group input {
-
       width: 100%;
 
       padding: 13px;
@@ -242,9 +214,6 @@
       border-color: #0756a3;
     }
 
-
-    /* PASSWORD */
-
     .password-box {
       position: relative;
     }
@@ -254,7 +223,6 @@
     }
 
     .show-password {
-
       position: absolute;
 
       right: 12px;
@@ -272,9 +240,6 @@
       font-size: 18px;
     }
 
-
-    /* FORGOT */
-
     .forgot {
       display: block;
 
@@ -291,11 +256,7 @@
       font-size: 13px;
     }
 
-
-    /* BUTTON */
-
     .submit-button {
-
       width: 100%;
 
       padding: 14px;
@@ -315,15 +276,38 @@
       cursor: pointer;
     }
 
-    .submit-button:hover {
-      background: #064987;
+    .submit-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
     }
 
+    .message {
+      display: none;
 
-    /* DIVIDER */
+      margin-top: 15px;
+
+      padding: 12px;
+
+      border-radius: 7px;
+
+      text-align: center;
+
+      font-size: 13px;
+    }
+
+    .message.success {
+      display: block;
+      background: #ecfdf3;
+      color: #027a48;
+    }
+
+    .message.error {
+      display: block;
+      background: #fef3f2;
+      color: #b42318;
+    }
 
     .divider {
-
       display: flex;
 
       align-items: center;
@@ -339,7 +323,6 @@
 
     .divider::before,
     .divider::after {
-
       content: "";
 
       flex: 1;
@@ -349,33 +332,7 @@
       background: #eaecf0;
     }
 
-
-    /* DEMO MESSAGE */
-
-    .message {
-
-      display: none;
-
-      margin-top: 15px;
-
-      padding: 12px;
-
-      background: #ecfdf3;
-
-      color: #027a48;
-
-      border-radius: 7px;
-
-      text-align: center;
-
-      font-size: 13px;
-    }
-
-
-    /* FOOTER */
-
     .footer-text {
-
       text-align: center;
 
       color: #667085;
@@ -383,11 +340,9 @@
       font-size: 13px;
 
       line-height: 1.6;
-
     }
 
     .footer-text a {
-
       color: #0756a3;
 
       font-weight: bold;
@@ -395,31 +350,17 @@
       text-decoration: none;
     }
 
-
-    /* REGISTER ONLY */
-
     #registerFields {
       display: none;
     }
 
-
-    @media (min-width: 600px) {
-
-      .auth-card {
-        padding: 35px;
-      }
-
-    }
-
   </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 </head>
 
 
 <body>
 
-
-<!-- HEADER -->
 
 <header>
 
@@ -438,16 +379,11 @@
 </header>
 
 
-
-<!-- PAGE -->
-
 <main class="page">
 
 
   <section class="auth-card">
 
-
-    <!-- BRAND -->
 
     <div class="brand">
 
@@ -464,9 +400,6 @@
     </div>
 
 
-
-    <!-- LOGIN / REGISTER TABS -->
-
     <div class="tabs">
 
       <button
@@ -477,7 +410,6 @@
         Login
 
       </button>
-
 
       <button
         class="tab"
@@ -491,13 +423,8 @@
     </div>
 
 
-
-    <!-- ACCOUNT TYPE -->
-
     <div class="account-title">
-
       I am a...
-
     </div>
 
 
@@ -506,7 +433,7 @@
 
       <div
         class="account-type active"
-        onclick="selectAccount(this, 'Student')">
+        onclick="selectAccount(this, 'student')">
 
         <span>👨‍🎓</span>
 
@@ -517,7 +444,7 @@
 
       <div
         class="account-type"
-        onclick="selectAccount(this, 'Tutor')">
+        onclick="selectAccount(this, 'tutor')">
 
         <span>👨‍🏫</span>
 
@@ -528,7 +455,7 @@
 
       <div
         class="account-type"
-        onclick="selectAccount(this, 'Landlord')">
+        onclick="selectAccount(this, 'landlord')">
 
         <span>🏠</span>
 
@@ -540,15 +467,10 @@
     </div>
 
 
-
-    <!-- FORM -->
-
     <form
       id="authForm"
       onsubmit="handleSubmit(event)">
 
-
-      <!-- REGISTER FIELDS -->
 
       <div id="registerFields">
 
@@ -576,7 +498,7 @@
           <input
             type="tel"
             id="phone"
-            placeholder="e.g. +260 97 123 4567">
+            placeholder="+260 97 123 4567">
 
         </div>
 
@@ -584,9 +506,7 @@
         <div class="form-group">
 
           <label for="institution">
-
             University / College
-
           </label>
 
           <input
@@ -599,9 +519,6 @@
 
       </div>
 
-
-
-      <!-- EMAIL -->
 
       <div class="form-group">
 
@@ -618,9 +535,6 @@
       </div>
 
 
-
-      <!-- PASSWORD -->
-
       <div class="form-group">
 
         <label for="password">
@@ -633,6 +547,7 @@
             type="password"
             id="password"
             placeholder="Enter your password"
+            minlength="6"
             required>
 
           <button
@@ -649,21 +564,16 @@
       </div>
 
 
-
-      <!-- FORGOT -->
-
       <a
         href="#"
         class="forgot"
-        id="forgotPassword">
+        id="forgotPassword"
+        onclick="resetPassword(event)">
 
         Forgot password?
 
       </a>
 
-
-
-      <!-- SUBMIT -->
 
       <button
         type="submit"
@@ -678,21 +588,16 @@
       <div
         class="message"
         id="message">
-
       </div>
 
 
     </form>
 
 
-
     <div class="divider">
       EduLink Zambia
     </div>
 
-
-
-    <!-- FOOTER -->
 
     <div class="footer-text">
 
@@ -714,47 +619,66 @@
 </main>
 
 
-
 <script>
-const SUPABASE_URL = "https://doezgqeqqkqbpdjhsbdj.supabase.co/rest/v1/";
-const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_X7zw25SKdYhokEyhF-SmqA_qkZgWW8l";
 
-const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_PUBLISHABLE_KEY
-);
 
-let selectedAccount = "Student";
+/* =========================================
+   SUPABASE CONNECTION
+========================================= */
+
+
+const SUPABASE_URL =
+  "YOUR_PROJECT_URL";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "YOUR_PUBLISHABLE_KEY";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+
+let selectedAccount = "student";
 
 let isRegister = false;
 
 
+/* =========================================
+   ACCOUNT TYPE
+========================================= */
 
-/* SELECT ACCOUNT TYPE */
 
 function selectAccount(element, type) {
 
-  let accountTypes =
-    document.querySelectorAll(".account-type");
+  document
+    .querySelectorAll(".account-type")
+    .forEach(function(item) {
 
+      item.classList.remove("active");
 
-  accountTypes.forEach(function(item) {
-
-    item.classList.remove("active");
-
-  });
+    });
 
 
   element.classList.add("active");
-
 
   selectedAccount = type;
 
 }
 
 
+/* =========================================
+   LOGIN MODE
+========================================= */
 
-/* SHOW LOGIN */
 
 function showLogin() {
 
@@ -791,8 +715,10 @@ function showLogin() {
 }
 
 
+/* =========================================
+   REGISTER MODE
+========================================= */
 
-/* SHOW REGISTER */
 
 function showRegister() {
 
@@ -829,15 +755,17 @@ function showRegister() {
 }
 
 
+/* =========================================
+   PASSWORD VISIBILITY
+========================================= */
 
-/* SHOW / HIDE PASSWORD */
 
 function togglePassword() {
 
-  let password =
+  const password =
     document.getElementById("password");
 
-  let button =
+  const button =
     document.querySelector(".show-password");
 
 
@@ -858,100 +786,405 @@ function togglePassword() {
 }
 
 
+/* =========================================
+   MAIN FORM
+========================================= */
 
-/* FORM */
 
-function handleSubmit(event) {
+async function handleSubmit(event) {
 
   event.preventDefault();
 
 
-  let message =
-    document.getElementById("message");
+  clearMessage();
 
 
-  if (isRegister) {
+  const button =
+    document.getElementById("submitButton");
 
-    let name =
+
+  button.disabled = true;
+
+
+  button.textContent =
+    isRegister
+      ? "Creating Account..."
+      : "Logging in...";
+
+
+  try {
+
+    const email =
       document
-        .getElementById("fullName")
+        .getElementById("email")
         .value
         .trim();
 
 
-    let phone =
+    const password =
       document
-        .getElementById("phone")
-        .value
-        .trim();
+        .getElementById("password")
+        .value;
 
 
-    let institution =
-      document
-        .getElementById("institution")
-        .value
-        .trim();
+    if (isRegister) {
 
-
-    if (
-      name === "" ||
-      phone === "" ||
-      institution === ""
-    ) {
-
-      showMessage(
-        "Please complete all registration fields."
+      await registerUser(
+        email,
+        password
       );
 
-      return;
+    } else {
+
+      await loginUser(
+        email,
+        password
+      );
 
     }
 
+  } catch (error) {
 
     showMessage(
-      "Account interface ready! We will connect this to the secure EduLink database next."
+      error.message ||
+      "Something went wrong. Please try again.",
+      "error"
     );
 
+  } finally {
 
-  } else {
+    button.disabled = false;
 
-    showMessage(
-      "Login interface ready! Secure authentication will be connected next."
-    );
+    button.textContent =
+      isRegister
+        ? "Create Account"
+        : "Login";
 
   }
 
 }
 
 
-
-/* MESSAGE */
-
-function showMessage(text) {
-
-  let message =
-    document.getElementById("message");
+/* =========================================
+   REGISTER USER
+========================================= */
 
 
-  message.textContent = text;
+async function registerUser(
+  email,
+  password
+) {
 
-  message.style.display = "block";
+  const fullName =
+    document
+      .getElementById("fullName")
+      .value
+      .trim();
+
+
+  const phone =
+    document
+      .getElementById("phone")
+      .value
+      .trim();
+
+
+  const institution =
+    document
+      .getElementById("institution")
+      .value
+      .trim();
+
+
+  if (!fullName) {
+
+    throw new Error(
+      "Please enter your full name."
+    );
+
+  }
+
+
+  if (!phone) {
+
+    throw new Error(
+      "Please enter your phone number."
+    );
+
+  }
+
+
+  if (!institution) {
+
+    throw new Error(
+      "Please enter your university or college."
+    );
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.signUp({
+
+      email: email,
+
+      password: password,
+
+      options: {
+
+        data: {
+
+          full_name: fullName,
+
+          account_type: selectedAccount,
+
+          phone: phone,
+
+          institution: institution
+
+        }
+
+      }
+
+    });
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  if (!data.user) {
+
+    throw new Error(
+      "Account could not be created."
+    );
+
+  }
+
+
+  /*
+    Create the user's public profile.
+  */
+
+
+  const {
+    error: profileError
+  } =
+    await supabaseClient
+      .from("profiles")
+      .insert({
+
+        id: data.user.id,
+
+        full_name: fullName,
+
+        phone: phone,
+
+        account_type: selectedAccount,
+
+        institution: institution
+
+      });
+
+
+  if (profileError) {
+
+    console.error(
+      "Profile error:",
+      profileError
+    );
+
+  }
+
+
+  showMessage(
+
+    "Account created successfully! Check your email if confirmation is required.",
+
+    "success"
+
+  );
+
+
+  document
+    .getElementById("authForm")
+    .reset();
+
 
 }
 
 
+/* =========================================
+   LOGIN USER
+========================================= */
 
-/* CLEAR MESSAGE */
+
+async function loginUser(
+  email,
+  password
+) {
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient.auth.signInWithPassword({
+
+      email: email,
+
+      password: password
+
+    });
+
+
+  if (error) {
+
+    throw error;
+
+  }
+
+
+  if (!data.user) {
+
+    throw new Error(
+      "Login failed."
+    );
+
+  }
+
+
+  showMessage(
+    "Login successful! Redirecting...",
+    "success"
+  );
+
+
+  setTimeout(function() {
+
+    window.location.href =
+      "dashboard.html";
+
+  }, 1200);
+
+}
+
+
+/* =========================================
+   PASSWORD RESET
+========================================= */
+
+
+async function resetPassword(event) {
+
+  event.preventDefault();
+
+
+  const email =
+    document
+      .getElementById("email")
+      .value
+      .trim();
+
+
+  if (!email) {
+
+    showMessage(
+      "Enter your email address first.",
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .auth
+      .resetPasswordForEmail(
+
+        email,
+
+        {
+
+          redirectTo:
+            window.location.origin +
+            window.location.pathname
+
+        }
+
+      );
+
+
+  if (error) {
+
+    showMessage(
+      error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  showMessage(
+    "Password reset instructions have been sent to your email.",
+    "success"
+  );
+
+}
+
+
+/* =========================================
+   MESSAGE
+========================================= */
+
+
+function showMessage(
+  text,
+  type
+) {
+
+  const message =
+    document
+      .getElementById("message");
+
+
+  message.textContent = text;
+
+
+  message.className =
+    "message " + type;
+
+}
+
+
+/* =========================================
+   CLEAR MESSAGE
+========================================= */
+
 
 function clearMessage() {
 
-  let message =
-    document.getElementById("message");
+  const message =
+    document
+      .getElementById("message");
 
 
   message.textContent = "";
 
-  message.style.display = "none";
+  message.className =
+    "message";
 
 }
 
@@ -961,4 +1194,4 @@ function clearMessage() {
 
 </body>
 
-  </html>
+</html>
