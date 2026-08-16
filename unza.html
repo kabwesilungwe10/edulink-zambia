@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>University of Zambia | EduLink Zambia</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: #f5f8fc;
+      color: #172033;
+    }
+
+    header {
+      background: #0756a3;
+      color: white;
+      padding: 16px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .back {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0756a3, #0879d9);
+      color: white;
+      padding: 55px 20px;
+      text-align: center;
+    }
+
+    .unza-logo {
+      width: 100px;
+      height: 100px;
+      background: white;
+      color: #0756a3;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 45px;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 35px 20px;
+    }
+
+    .section {
+      background: white;
+      padding: 25px;
+      margin-bottom: 20px;
+      border-radius: 12px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.06);
+    }
+
+    .section h2 {
+      color: #0756a3;
+      margin-bottom: 15px;
+    }
+
+    .section p {
+      color: #667085;
+      line-height: 1.7;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .info-card {
+      background: #f5f8fc;
+      padding: 18px;
+      border-radius: 10px;
+    }
+
+    .info-card h3 {
+      margin-bottom: 7px;
+      color: #0756a3;
+    }
+
+    .info-card p {
+      font-size: 14px;
+    }
+
+    .faculties {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .faculty {
+      padding: 15px;
+      border-left: 4px solid #0756a3;
+      background: #f5f8fc;
+      border-radius: 5px;
+    }
+
+    .faculty h3 {
+      font-size: 16px;
+      margin-bottom: 5px;
+    }
+
+    .faculty p {
+      font-size: 13px;
+    }
+
+    .buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 12px 18px;
+      border-radius: 7px;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .primary {
+      background: #0756a3;
+      color: white;
+    }
+
+    .secondary {
+      background: #e8f2ff;
+      color: #0756a3;
+    }
+
+    footer {
+      background: #101828;
+      color: white;
+      text-align: center;
+      padding: 30px 15px;
+    }
+
+    footer p {
+      color: #d0d5dd;
+      margin-top: 7px;
+    }
+
+    @media (min-width: 700px) {
+
+      .hero h1 {
+        font-size: 44px;
+      }
+
+      .info-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .faculties {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+
+  <div class="logo">
+    🎓 EduLink Zambia
+  </div>
+
+  <a class="back" href="index.html">
+    ← Back to EduLink
+  </a>
+
+</header>
+
+
+<section class="hero">
+
+  <div class="unza-logo">
+    🎓
+  </div>
+
+  <h1>University of Zambia</h1>
+
+  <p>
+    UNZA • Lusaka, Zambia
+  </p>
+
+</section>
+
+
+<main class="container">
+
+
+  <!-- ABOUT -->
+
+  <section class="section">
+
+    <h2>About the University</h2>
+
+    <p>
+      The University of Zambia (UNZA) is a public university
+      located in Lusaka, Zambia. EduLink Zambia provides this
+      profile to help prospective and current students discover
+      information about the institution.
+    </p>
+
+    <div class="buttons">
+
+      <a
+        href="https://www.unza.zm/"
+        target="_blank"
+        class="button primary">
+        Official UNZA Website
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- QUICK INFORMATION -->
+
+  <section class="section">
+
+    <h2>Quick Information</h2>
+
+    <div class="info-grid">
+
+      <div class="info-card">
+
+        <h3>📍 Location</h3>
+
+        <p>
+          Lusaka, Zambia
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <h3>🏛️ Institution Type</h3>
+
+        <p>
+          Public University
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <h3>🎓 Study Levels</h3>
+
+        <p>
+          Undergraduate & Postgraduate
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- FACULTIES -->
+
+  <section class="section">
+
+    <h2>Schools & Faculties</h2>
+
+    <div class="faculties">
+
+      <div class="faculty">
+
+        <h3>School of Medicine</h3>
+
+        <p>
+          Health and medical sciences programs.
+        </p>
+
+      </div>
+
+
+      <div class="faculty">
+
+        <h3>School of Health Sciences</h3>
+
+        <p>
+          Programs in pharmacy, physiotherapy,
+          biomedical sciences and related fields.
+        </p>
+
+      </div>
+
+
+      <div class="faculty">
+
+        <h3>School of Engineering</h3>
+
+        <p>
+          Engineering and technology-related programs.
+        </p>
+
+      </div>
+
+
+      <div class="faculty">
+
+        <h3>School of Natural Sciences</h3>
+
+        <p>
+          Science and related academic programs.
+        </p>
+
+      </div>
+
+
+      <div class="faculty">
+
+        <h3>School of Humanities & Social Sciences</h3>
+
+        <p>
+          Humanities, social sciences and related disciplines.
+        </p>
+
+      </div>
+
+
+      <div class="faculty">
+
+        <h3>School of Education</h3>
+
+        <p>
+          Teacher education and educational studies.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+  <!-- PROGRAMS -->
+
+  <section class="section">
+
+    <h2>Programs</h2>
+
+    <p>
+      EduLink will allow students to search programs offered
+      by UNZA and compare them with programs at other
+      institutions.
+    </p>
+
+    <div class="buttons">
+
+      <a href="#" class="button primary">
+        Browse UNZA Programs
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- ADMISSIONS -->
+
+  <section class="section">
+
+    <h2>Admissions</h2>
+
+    <p>
+      Prospective students can use EduLink to find admission
+      information, entry requirements and application resources.
+    </p>
+
+    <div class="buttons">
+
+      <a
+        href="https://www.unza.zm/"
+        target="_blank"
+        class="button secondary">
+        Visit UNZA
+      </a>
+
+    </div>
+
+  </section>
+
+
+  <!-- STUDENT SERVICES -->
+
+  <section class="section">
+
+    <h2>Student Support</h2>
+
+    <div class="info-grid">
+
+      <div class="info-card">
+
+        <h3>👨‍🏫 Find a Tutor</h3>
+
+        <p>
+          Connect with students who can provide academic support.
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <h3>🤝 Peer Support</h3>
+
+        <p>
+          Connect with fellow students and build your academic network.
+        </p>
+
+      </div>
+
+
+      <div class="info-card">
+
+        <h3>🏠 Accommodation</h3>
+
+        <p>
+          Find student accommodation around Lusaka.
+        </p>
+
+      </div>
+
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<footer>
+
+  <h3>🎓 EduLink Zambia</h3>
+
+  <p>
+    Connecting Students. Connecting Opportunities.
+  </p>
+
+  <p>
+    © 2026 EduLink Zambia
+  </p>
+
+</footer>
+
+</body>
+      </html>
