@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Institutions | EduLink Zambia</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f8fc;
+      color: #172033;
+    }
+
+    header {
+      background: #0756a3;
+      color: white;
+      padding: 16px 20px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .back {
+      color: white;
+      text-decoration: none;
+      font-size: 14px;
+    }
+
+    .hero {
+      background: #0756a3;
+      color: white;
+      text-align: center;
+      padding: 35px 20px;
+    }
+
+    .hero h1 {
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: auto;
+      padding: 25px 18px;
+    }
+
+    .search-box {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,0.06);
+    }
+
+    .search-box input {
+      width: 100%;
+      padding: 14px;
+
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+
+      font-size: 15px;
+      outline: none;
+    }
+
+    .search-box input:focus {
+      border-color: #0756a3;
+    }
+
+    .filters {
+      display: flex;
+      gap: 10px;
+      margin-top: 12px;
+      overflow-x: auto;
+    }
+
+    .filter {
+      border: 1px solid #d0d5dd;
+      background: white;
+      padding: 9px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+
+    .filter.active {
+      background: #0756a3;
+      color: white;
+      border-color: #0756a3;
+    }
+
+    .section-title {
+      color: #0756a3;
+      margin-bottom: 15px;
+    }
+
+    .institutions {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
+
+    .institution-card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+
+      box-shadow:
+        0 3px 12px rgba(0,0,0,0.06);
+    }
+
+    .institution-icon {
+      width: 55px;
+      height: 55px;
+
+      background: #e8f2ff;
+      color: #0756a3;
+
+      border-radius: 10px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      font-size: 27px;
+
+      margin-bottom: 15px;
+    }
+
+    .institution-card h3 {
+      color: #0756a3;
+      margin-bottom: 8px;
+    }
+
+    .location {
+      color: #667085;
+      font-size: 14px;
+      margin-bottom: 10px;
+    }
+
+    .description {
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .view-button {
+      display: inline-block;
+
+      background: #0756a3;
+      color: white;
+
+      padding: 10px 15px;
+
+      border-radius: 7px;
+
+      text-decoration: none;
+
+      font-size: 13px;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 40px;
+      color: #667085;
+    }
+
+    #empty {
+      display: none;
+      text-align: center;
+      padding: 40px;
+      color: #667085;
+    }
+
+    footer {
+      margin-top: 35px;
+      background: #101828;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+
+    footer p {
+      margin-top: 7px;
+      color: #d0d5dd;
+      font-size: 13px;
+    }
+
+    @media (min-width: 650px) {
+
+      .institutions {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+    }
+
+    @media (min-width: 950px) {
+
+      .institutions {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="logo">
+    🎓 EduLink Zambia
+  </div>
+
+  <a href="dashboard.html"
+     class="back">
+    ← Dashboard
+  </a>
+
+</header>
+
+
+<section class="hero">
+
+  <h1>
+    Universities & Colleges
+  </h1>
+
+  <p>
+    Explore institutions across Zambia.
+  </p>
+
+</section>
+
+
+<main class="container">
+
+
+  <div class="search-box">
+
+    <input
+      type="search"
+      id="searchInput"
+      placeholder="🔎 Search university or college..."
+      oninput="filterInstitutions()">
+
+
+    <div class="filters">
+
+      <button
+        class="filter active"
+        onclick="filterLocation('all', this)">
+        All
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterLocation('Lusaka', this)">
+        Lusaka
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterLocation('Kitwe', this)">
+        Kitwe
+      </button>
+
+      <button
+        class="filter"
+        onclick="filterLocation('Kabwe', this)">
+        Kabwe
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <h2 class="section-title">
+    Institutions
+  </h2>
+
+
+  <div id="loading">
+    Loading institutions...
+  </div>
+
+
+  <div
+    class="institutions"
+    id="institutionsList">
+  </div>
+
+
+  <div id="empty">
+    No institutions found.
+  </div>
+
+
+</main>
+
+
+<footer>
+
+  <h3>
+    🎓 EduLink Zambia
+  </h3>
+
+  <p>
+    Connecting Students. Connecting Opportunities.
+  </p>
+
+  <p>
+    © 2026 EduLink Zambia
+  </p>
+
+</footer>
+
+
+<script>
+
+
+/* =========================================
+   SUPABASE CONNECTION
+========================================= */
+
+
+const SUPABASE_URL =
+  "https://doezgqeqqkqbpdjhsbdj.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_X7zw25SKdYhokEyhF-SmqA_qkZgWW8l";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+
+let allInstitutions = [];
+
+let selectedLocation = "all";
+
+
+/* =========================================
+   LOAD INSTITUTIONS
+========================================= */
+
+
+async function loadInstitutions() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("institutions")
+      .select("*")
+      .order("name");
+
+
+  document
+    .getElementById("loading")
+    .style.display = "none";
+
+
+  if (error) {
+
+    console.error(error);
+
+    document
+      .getElementById("empty")
+      .style.display = "block";
+
+    document
+      .getElementById("empty")
+      .textContent =
+        "Unable to load institutions.";
+
+    return;
+
+  }
+
+
+  allInstitutions = data || [];
+
+  displayInstitutions(
+    allInstitutions
+  );
+
+}
+
+
+/* =========================================
+   DISPLAY INSTITUTIONS
+========================================= */
+
+
+function displayInstitutions(
+  institutions
+) {
+
+  const container =
+    document.getElementById(
+      "institutionsList"
+    );
+
+
+  container.innerHTML = "";
+
+
+  if (institutions.length === 0) {
+
+    document
+      .getElementById("empty")
+      .style.display = "block";
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("empty")
+    .style.display = "none";
+
+
+  institutions.forEach(
+    function(institution) {
+
+
+      const card =
+        document.createElement("div");
+
+
+      card.className =
+        "institution-card";
+
+
+      card.innerHTML = `
+
+        <div class="institution-icon">
+          🎓
+        </div>
+
+        <h3>
+          ${escapeHTML(institution.name)}
+        </h3>
+
+        <div class="location">
+          📍 ${escapeHTML(institution.location)}
+        </div>
+
+        <div class="description">
+          ${escapeHTML(institution.description || "No description available.")}
+        </div>
+
+        ${
+          institution.website
+          ?
+          `<a
+             href="${escapeAttribute(institution.website)}"
+             target="_blank"
+             rel="noopener noreferrer"
+             class="view-button">
+             Visit Website
+           </a>`
+          :
+          ""
+        }
+
+      `;
+
+
+      container.appendChild(card);
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   SEARCH
+========================================= */
+
+
+function filterInstitutions() {
+
+  const search =
+    document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  const filtered =
+    allInstitutions.filter(
+      function(institution) {
+
+        const matchesSearch =
+          institution.name
+            .toLowerCase()
+            .includes(search) ||
+
+          institution.location
+            .toLowerCase()
+            .includes(search) ||
+
+          institution.type
+            .toLowerCase()
+            .includes(search);
+
+
+        const matchesLocation =
+          selectedLocation === "all" ||
+
+          institution.location
+            .toLowerCase() ===
+            selectedLocation.toLowerCase();
+
+
+        return (
+          matchesSearch &&
+          matchesLocation
+        );
+
+      }
+    );
+
+
+  displayInstitutions(filtered);
+
+}
+
+
+/* =========================================
+   LOCATION FILTER
+========================================= */
+
+
+function filterLocation(
+  location,
+  button
+) {
+
+  selectedLocation = location;
+
+
+  document
+    .querySelectorAll(".filter")
+    .forEach(
+      function(item) {
+        item.classList.remove("active");
+      }
+    );
+
+
+  button.classList.add("active");
+
+
+  filterInstitutions();
+
+}
+
+
+/* =========================================
+   SECURITY HELPERS
+========================================= */
+
+
+function escapeHTML(value) {
+
+  if (!value) return "";
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeAttribute(value) {
+
+  return escapeHTML(value);
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+
+loadInstitutions();
+
+
+</script>
+
+
+</body>
+
+</html>
