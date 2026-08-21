@@ -2,14 +2,14 @@
 <html lang="en">
 
 <head>
-
   <meta charset="UTF-8">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
   <title>Programs | EduLink Zambia</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
 
@@ -33,10 +33,6 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-
-      position: sticky;
-      top: 0;
-      z-index: 1000;
     }
 
     .logo {
@@ -51,141 +47,187 @@
     }
 
     .hero {
-      background: linear-gradient(
-        135deg,
-        #0756a3,
-        #0879d9
-      );
-
+      background: #0756a3;
       color: white;
       text-align: center;
-
-      padding: 50px 20px;
+      padding: 35px 20px;
     }
 
     .hero h1 {
-      font-size: 34px;
-      margin-bottom: 12px;
+      font-size: 28px;
+      margin-bottom: 10px;
     }
 
     .hero p {
-      line-height: 1.6;
+      opacity: 0.9;
+      line-height: 1.5;
     }
 
     .container {
       max-width: 1100px;
       margin: auto;
-      padding: 35px 20px;
+      padding: 25px 18px;
     }
 
-    .search {
+    .search-box {
       background: white;
-      padding: 20px;
+      padding: 18px;
       border-radius: 12px;
+      margin-bottom: 25px;
 
       box-shadow:
-        0 3px 12px rgba(0,0,0,0.07);
-
-      margin-bottom: 30px;
+        0 3px 12px rgba(0,0,0,0.06);
     }
 
-    .search input {
+    .search-box input,
+    .search-box select {
       width: 100%;
-
-      padding: 15px;
+      padding: 14px;
 
       border: 1px solid #d0d5dd;
       border-radius: 8px;
 
-      font-size: 16px;
+      font-size: 15px;
       outline: none;
+
+      background: white;
     }
 
-    .search input:focus {
+    .search-box input {
+      margin-bottom: 12px;
+    }
+
+    .search-box input:focus,
+    .search-box select:focus {
       border-color: #0756a3;
     }
 
-    .program-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 18px;
+    .section-title {
+      color: #0756a3;
+      margin-bottom: 15px;
     }
 
-    .program {
-      background: white;
-      padding: 22px;
+    .programs {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 15px;
+    }
 
+    .program-card {
+      background: white;
+      padding: 20px;
       border-radius: 12px;
 
       box-shadow:
         0 3px 12px rgba(0,0,0,0.06);
     }
 
-    .program h2 {
-      color: #0756a3;
-      margin-bottom: 8px;
-      font-size: 21px;
-    }
-
-    .program p {
-      color: #667085;
-      line-height: 1.5;
-      margin-bottom: 10px;
-    }
-
-    .institution {
-      display: inline-block;
+    .program-icon {
+      width: 55px;
+      height: 55px;
 
       background: #e8f2ff;
       color: #0756a3;
 
-      padding: 7px 10px;
+      border-radius: 10px;
 
-      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
-      font-size: 13px;
-      margin: 3px;
+      font-size: 27px;
+
+      margin-bottom: 15px;
     }
 
-    .no-results {
-      display: none;
+    .program-card h3 {
+      color: #0756a3;
+      margin-bottom: 8px;
+      line-height: 1.3;
+    }
 
-      background: white;
+    .institution {
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
 
-      padding: 30px;
+    .details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin: 10px 0;
+    }
 
-      border-radius: 12px;
+    .badge {
+      background: #eef4ff;
+      color: #0756a3;
 
+      padding: 6px 9px;
+      border-radius: 15px;
+
+      font-size: 12px;
+    }
+
+    .description {
+      color: #667085;
+      font-size: 14px;
+      line-height: 1.5;
+      margin-top: 10px;
+    }
+
+    #loading {
       text-align: center;
+      padding: 40px;
+      color: #667085;
+    }
 
+    #empty {
+      display: none;
+      text-align: center;
+      padding: 40px;
       color: #667085;
     }
 
     footer {
+      margin-top: 35px;
       background: #101828;
       color: white;
-
       text-align: center;
-
-      padding: 30px 15px;
-
-      margin-top: 30px;
+      padding: 25px;
     }
 
     footer p {
-      color: #d0d5dd;
       margin-top: 7px;
+      color: #d0d5dd;
+      font-size: 13px;
     }
 
-    @media (min-width: 700px) {
+    @media (min-width: 650px) {
 
-      .program-grid {
-        grid-template-columns:
-          repeat(2, 1fr);
+      .programs {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .hero h1 {
-        font-size: 45px;
+      .filters {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+    }
+
+    @media (max-width: 649px) {
+
+      .filters > * {
+        margin-bottom: 10px;
+      }
+
+    }
+
+    @media (min-width: 950px) {
+
+      .programs {
+        grid-template-columns: repeat(3, 1fr);
       }
 
     }
@@ -204,12 +246,9 @@
     🎓 EduLink Zambia
   </div>
 
-  <a
-    href="index.html"
-    class="back">
-
-    ← Back Home
-
+  <a href="dashboard.html"
+     class="back">
+    ← Dashboard
   </a>
 
 </header>
@@ -217,11 +256,12 @@
 
 <section class="hero">
 
-  <h1>Find Your Program 📚</h1>
+  <h1>
+    Academic Programs
+  </h1>
 
   <p>
-    Search programs and discover institutions
-    where you can study them.
+    Discover programs offered by institutions across Zambia.
   </p>
 
 </section>
@@ -230,210 +270,72 @@
 <main class="container">
 
 
-  <div class="search">
+  <div class="search-box">
 
     <input
-      type="text"
-      id="programSearch"
+      type="search"
+      id="searchInput"
+      placeholder="🔎 Search for a program..."
+      oninput="filterPrograms()">
 
-      placeholder=
-      "Search for a program e.g. Pharmacy..."
 
-      onkeyup="searchPrograms()">
+    <div class="filters">
+
+      <select
+        id="institutionFilter"
+        onchange="filterPrograms()">
+
+        <option value="all">
+          All Institutions
+        </option>
+
+      </select>
+
+
+      <select
+        id="fieldFilter"
+        onchange="filterPrograms()">
+
+        <option value="all">
+          All Fields
+        </option>
+
+      </select>
+
+
+      <select
+        id="levelFilter"
+        onchange="filterPrograms()">
+
+        <option value="all">
+          All Levels
+        </option>
+
+      </select>
+
+    </div>
 
   </div>
 
 
-  <div
-    class="program-grid"
-    id="programList">
+  <h2 class="section-title">
+    Programs
+  </h2>
 
 
-    <!-- PHARMACY -->
-
-    <div class="program">
-
-      <h2>💊 Pharmacy</h2>
-
-      <p>
-        Study medicines, pharmaceutical sciences,
-        patient care and drug development.
-      </p>
-
-      <span class="institution">
-        University of Zambia
-      </span>
-
-      <span class="institution">
-        Copperbelt University
-      </span>
-
-    </div>
-
-
-    <!-- MEDICINE -->
-
-    <div class="program">
-
-      <h2>🩺 Medicine</h2>
-
-      <p>
-        Study medicine and prepare for a career
-        in healthcare.
-      </p>
-
-      <span class="institution">
-        University of Zambia
-      </span>
-
-      <span class="institution">
-        Copperbelt University
-      </span>
-
-    </div>
-
-
-    <!-- NURSING -->
-
-    <div class="program">
-
-      <h2>👩‍⚕️ Nursing</h2>
-
-      <p>
-        Develop professional skills for nursing
-        and patient care.
-      </p>
-
-      <span class="institution">
-        University of Zambia
-      </span>
-
-      <span class="institution">
-        Mulungushi University
-      </span>
-
-    </div>
-
-
-    <!-- PHYSIOTHERAPY -->
-
-    <div class="program">
-
-      <h2>🏃 Physiotherapy</h2>
-
-      <p>
-        Learn rehabilitation, movement science
-        and physical therapy.
-      </p>
-
-      <span class="institution">
-        University of Zambia
-      </span>
-
-    </div>
-
-
-    <!-- COMPUTER SCIENCE -->
-
-    <div class="program">
-
-      <h2>💻 Computer Science</h2>
-
-      <p>
-        Study software, computing, programming
-        and information technology.
-      </p>
-
-      <span class="institution">
-        University of Zambia
-      </span>
-
-      <span class="institution">
-        Copperbelt University
-      </span>
-
-    </div>
-
-
-    <!-- ENGINEERING -->
-
-    <div class="program">
-
-      <h2>⚙️ Engineering</h2>
-
-      <p>
-        Explore engineering, technology and
-        technical problem-solving.
-      </p>
-
-      <span class="institution">
-        University of Zambia
-      </span>
-
-      <span class="institution">
-        Copperbelt University
-      </span>
-
-    </div>
-
-
-    <!-- BUSINESS -->
-
-    <div class="program">
-
-      <h2>📊 Business Administration</h2>
-
-      <p>
-        Learn management, entrepreneurship,
-        finance and business strategy.
-      </p>
-
-      <span class="institution">
-        University of Zambia
-      </span>
-
-      <span class="institution">
-        University of Lusaka
-      </span>
-
-    </div>
-
-
-    <!-- LAW -->
-
-    <div class="program">
-
-      <h2>⚖️ Law</h2>
-
-      <p>
-        Study legal systems, legislation,
-        jurisprudence and legal practice.
-      </p>
-
-      <span class="institution">
-        University of Zambia
-      </span>
-
-      <span class="institution">
-        University of Lusaka
-      </span>
-
-    </div>
-
-
+  <div id="loading">
+    Loading programs...
   </div>
 
 
   <div
-    class="no-results"
-    id="noResults">
+    class="programs"
+    id="programsList">
+  </div>
 
-    <h2>No programs found</h2>
 
-    <p>
-      Try searching for another program.
-    </p>
-
+  <div id="empty">
+    No programs found.
   </div>
 
 
@@ -442,7 +344,9 @@
 
 <footer>
 
-  <h3>🎓 EduLink Zambia</h3>
+  <h3>
+    🎓 EduLink Zambia
+  </h3>
 
   <p>
     Connecting Students. Connecting Opportunities.
@@ -458,57 +362,448 @@
 <script>
 
 
-function searchPrograms() {
+/* =========================================
+   SUPABASE
+========================================= */
 
-  let input =
+
+const SUPABASE_URL =
+  "https://doezgqeqqkqbpdjhsbdj.supabase.co";
+
+
+const SUPABASE_PUBLISHABLE_KEY =
+  "sb_publishable_X7zw25SKdYhokEyhF-SmqA_qkZgWW8l";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_PUBLISHABLE_KEY
+  );
+
+
+/* =========================================
+   VARIABLES
+========================================= */
+
+
+let allPrograms = [];
+
+
+/* =========================================
+   LOAD PROGRAMS
+========================================= */
+
+
+async function loadPrograms() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("programs")
+      .select(`
+        id,
+        name,
+        field,
+        level,
+        duration,
+        description,
+        institutions (
+          id,
+          name,
+          location
+        )
+      `)
+      .order("name");
+
+
+  document
+    .getElementById("loading")
+    .style.display = "none";
+
+
+  if (error) {
+
+    console.error(error);
+
     document
-      .getElementById("programSearch")
-      .value
-      .toLowerCase();
+      .getElementById("empty")
+      .style.display = "block";
 
-  let programs =
     document
-      .querySelectorAll(".program");
+      .getElementById("empty")
+      .textContent =
+        "Unable to load programs.";
 
-  let found = 0;
-
-
-  programs.forEach(function(program) {
-
-    let text =
-      program.innerText.toLowerCase();
-
-
-    if (text.includes(input)) {
-
-      program.style.display = "block";
-
-      found++;
-
-    } else {
-
-      program.style.display = "none";
-
-    }
-
-  });
-
-
-  let noResults =
-    document.getElementById("noResults");
-
-
-  if (found === 0) {
-
-    noResults.style.display = "block";
-
-  } else {
-
-    noResults.style.display = "none";
+    return;
 
   }
 
+
+  allPrograms = data || [];
+
+
+  populateFilters(
+    allPrograms
+  );
+
+
+  displayPrograms(
+    allPrograms
+  );
+
 }
+
+
+/* =========================================
+   FILTER OPTIONS
+========================================= */
+
+
+function populateFilters(
+  programs
+) {
+
+  const institutions =
+    new Set();
+
+  const fields =
+    new Set();
+
+  const levels =
+    new Set();
+
+
+  programs.forEach(
+    function(program) {
+
+      if (program.institutions) {
+
+        institutions.add(
+          program.institutions.name
+        );
+
+      }
+
+      if (program.field) {
+
+        fields.add(
+          program.field
+        );
+
+      }
+
+      if (program.level) {
+
+        levels.add(
+          program.level
+        );
+
+      }
+
+    }
+  );
+
+
+  const institutionFilter =
+    document.getElementById(
+      "institutionFilter"
+    );
+
+
+  const fieldFilter =
+    document.getElementById(
+      "fieldFilter"
+    );
+
+
+  const levelFilter =
+    document.getElementById(
+      "levelFilter"
+    );
+
+
+  institutions.forEach(
+    function(name) {
+
+      institutionFilter.innerHTML +=
+        `<option value="${escapeAttribute(name)}">
+          ${escapeHTML(name)}
+        </option>`;
+
+    }
+  );
+
+
+  fields.forEach(
+    function(field) {
+
+      fieldFilter.innerHTML +=
+        `<option value="${escapeAttribute(field)}">
+          ${escapeHTML(field)}
+        </option>`;
+
+    }
+  );
+
+
+  levels.forEach(
+    function(level) {
+
+      levelFilter.innerHTML +=
+        `<option value="${escapeAttribute(level)}">
+          ${escapeHTML(level)}
+        </option>`;
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   DISPLAY PROGRAMS
+========================================= */
+
+
+function displayPrograms(
+  programs
+) {
+
+  const container =
+    document.getElementById(
+      "programsList"
+    );
+
+
+  container.innerHTML = "";
+
+
+  if (programs.length === 0) {
+
+    document
+      .getElementById("empty")
+      .style.display = "block";
+
+    return;
+
+  }
+
+
+  document
+    .getElementById("empty")
+    .style.display = "none";
+
+
+  programs.forEach(
+    function(program) {
+
+      const card =
+        document.createElement("div");
+
+
+      card.className =
+        "program-card";
+
+
+      const institutionName =
+        program.institutions?.name ||
+        "Institution not available";
+
+
+      const location =
+        program.institutions?.location ||
+        "";
+
+
+      card.innerHTML = `
+
+        <div class="program-icon">
+          📚
+        </div>
+
+        <h3>
+          ${escapeHTML(program.name)}
+        </h3>
+
+        <div class="institution">
+          🎓 ${escapeHTML(institutionName)}
+        </div>
+
+        <div class="details">
+
+          <span class="badge">
+            ${escapeHTML(program.field)}
+          </span>
+
+          <span class="badge">
+            ${escapeHTML(program.level)}
+          </span>
+
+          ${
+            program.duration
+            ?
+            `<span class="badge">
+              ⏱ ${escapeHTML(program.duration)}
+            </span>`
+            :
+            ""
+          }
+
+        </div>
+
+        ${
+          location
+          ?
+          `<div class="description">
+            📍 ${escapeHTML(location)}
+          </div>`
+          :
+          ""
+        }
+
+        <div class="description">
+          ${escapeHTML(
+            program.description ||
+            "No description available."
+          )}
+        </div>
+
+      `;
+
+
+      container.appendChild(card);
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   FILTER PROGRAMS
+========================================= */
+
+
+function filterPrograms() {
+
+  const search =
+    document
+      .getElementById("searchInput")
+      .value
+      .toLowerCase()
+      .trim();
+
+
+  const institution =
+    document
+      .getElementById("institutionFilter")
+      .value;
+
+
+  const field =
+    document
+      .getElementById("fieldFilter")
+      .value;
+
+
+  const level =
+    document
+      .getElementById("levelFilter")
+      .value;
+
+
+  const filtered =
+    allPrograms.filter(
+      function(program) {
+
+
+        const institutionName =
+          program.institutions?.name ||
+          "";
+
+
+        const matchesSearch =
+          program.name
+            .toLowerCase()
+            .includes(search) ||
+
+          program.field
+            .toLowerCase()
+            .includes(search) ||
+
+          institutionName
+            .toLowerCase()
+            .includes(search);
+
+
+        const matchesInstitution =
+          institution === "all" ||
+          institutionName === institution;
+
+
+        const matchesField =
+          field === "all" ||
+          program.field === field;
+
+
+        const matchesLevel =
+          level === "all" ||
+          program.level === level;
+
+
+        return (
+          matchesSearch &&
+          matchesInstitution &&
+          matchesField &&
+          matchesLevel
+        );
+
+      }
+    );
+
+
+  displayPrograms(
+    filtered
+  );
+
+}
+
+
+/* =========================================
+   SECURITY HELPERS
+========================================= */
+
+
+function escapeHTML(value) {
+
+  if (!value) return "";
+
+  return String(value)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+
+}
+
+
+function escapeAttribute(value) {
+
+  return escapeHTML(value);
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+
+loadPrograms();
 
 
 </script>
@@ -516,4 +811,4 @@ function searchPrograms() {
 
 </body>
 
-  </html>
+</html>
