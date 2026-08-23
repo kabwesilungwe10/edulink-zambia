@@ -317,6 +317,47 @@
 
     async function loadAccommodation() {
 
+  const loading = document.getElementById("loading");
+  const listings = document.getElementById("listings");
+  const errorBox = document.getElementById("error");
+
+  loading.style.display = "block";
+  errorBox.style.display = "none";
+
+  try {
+
+    const { data, error } = await supabaseClient
+      .from("accommodations")
+      .select("*")
+      .eq("available", true)
+      .order("created_at", {
+        ascending: false
+      });
+
+    if (error) {
+      throw error;
+    }
+
+    allListings = data || [];
+
+    loading.style.display = "none";
+
+    displayListings(allListings);
+
+  } catch (error) {
+
+    console.error("Accommodation error:", error);
+
+    loading.style.display = "none";
+
+    errorBox.textContent =
+      "Unable to load accommodation: " +
+      error.message;
+
+    errorBox.style.display = "block";
+  }
+    }
+
       const loading = document.getElementById("loading");
       const listings = document.getElementById("listings");
       const errorBox = document.getElementById("error");
