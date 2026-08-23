@@ -1,40 +1,505 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0">
+  <title>Accommodation | EduLink Zambia</title>
 
-  <title>Student Accommodation | EduLink Zambia</title>
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
-
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
-      font-family: Arial, sans-serif;
     }
 
     body {
-      background: #f5f8fc;
-      color: #172033;
+      font-family: Arial, sans-serif;
+      background: #f4f7fb;
+      color: #1f2937;
     }
 
     header {
-      background: #0756a3;
+      background: #075ca8;
       color: white;
-      padding: 16px 20px;
-
+      padding: 18px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
+    }
 
-      position: sticky;
+    .logo {
+      font-size: 25px;
+      font-weight: bold;
+    }
+
+    .dashboard-link {
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+    }
+
+    .hero {
+      background: #075ca8;
+      color: white;
+      text-align: center;
+      padding: 35px 20px 45px;
+    }
+
+    .hero h1 {
+      font-size: 36px;
+      margin-bottom: 12px;
+    }
+
+    .hero p {
+      font-size: 18px;
+      opacity: 0.95;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 1100px;
+      margin: 30px auto;
+    }
+
+    .filters {
+      background: white;
+      padding: 22px;
+      border-radius: 18px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.07);
+      margin-bottom: 30px;
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      padding: 15px;
+      margin-bottom: 14px;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 16px;
+      background: white;
+    }
+
+    .filter-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .section-title {
+      color: #075ca8;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+
+    #loading {
+      text-align: center;
+      padding: 40px;
+      color: #6b7280;
+      font-size: 18px;
+    }
+
+    #error {
+      display: none;
+      background: #fee2e2;
+      color: #991b1b;
+      padding: 16px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    #empty {
+      display: none;
+      text-align: center;
+      background: white;
+      padding: 45px 20px;
+      border-radius: 15px;
+      color: #6b7280;
+      font-size: 18px;
+    }
+
+    .listings {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
+    }
+
+    .card-top {
+      background: #e8f2fc;
+      padding: 25px;
+      text-align: center;
+      font-size: 45px;
+    }
+
+    .card-content {
+      padding: 20px;
+    }
+
+    .card h3 {
+      color: #075ca8;
+      font-size: 21px;
+      margin-bottom: 12px;
+    }
+
+    .detail {
+      margin: 8px 0;
+      color: #4b5563;
+      font-size: 15px;
+    }
+
+    .price {
+      color: #075ca8;
+      font-size: 21px;
+      font-weight: bold;
+      margin: 15px 0;
+    }
+
+    .description {
+      color: #6b7280;
+      line-height: 1.5;
+      margin-bottom: 15px;
+    }
+
+    .contact-btn {
+      display: block;
+      width: 100%;
+      text-align: center;
+      background: #075ca8;
+      color: white;
+      text-decoration: none;
+      padding: 13px;
+      border-radius: 9px;
+      font-weight: bold;
+    }
+
+    .contact-btn:hover {
+      background: #064b89;
+    }
+
+    .available {
+      display: inline-block;
+      background: #dcfce7;
+      color: #166534;
+      padding: 5px 9px;
+      border-radius: 20px;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+
+    footer {
+      margin-top: 60px;
+      background: #111827;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+
+    @media (max-width: 600px) {
+      .hero h1 {
+        font-size: 30px;
+      }
+
+      .filter-row {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        font-size: 21px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">🎓 EduLink Zambia</div>
+
+    <a href="dashboard.html" class="dashboard-link">
+      ← Dashboard
+    </a>
+  </header>
+
+  <section class="hero">
+    <h1>Student Accommodation</h1>
+    <p>Find safe and affordable accommodation across Zambia.</p>
+  </section>
+
+  <main class="container">
+
+    <section class="filters">
+
+      <input
+        type="text"
+        id="search"
+        placeholder="🔎 Search by title or location..."
+      >
+
+      <div class="filter-row">
+
+        <select id="roomType">
+          <option value="">All Room Types</option>
+          <option value="Single Room">Single Room</option>
+          <option value="Self Contained">Self Contained</option>
+          <option value="Shared Room">Shared Room</option>
+          <option value="House">House</option>
+          <option value="Flat">Flat</option>
+        </select>
+
+        <select id="sortPrice">
+          <option value="">Sort by Price</option>
+          <option value="low">Lowest Price</option>
+          <option value="high">Highest Price</option>
+        </select>
+
+      </div>
+
+    </section>
+
+    <div id="error"></div>
+
+    <h2 class="section-title">Available Accommodation</h2>
+
+    <div id="loading">
+      Loading accommodation...
+    </div>
+
+    <div id="empty">
+      🏠 No accommodation listings found.
+    </div>
+
+    <div id="listings" class="listings"></div>
+
+  </main>
+
+  <footer>
+    <p>© 2026 EduLink Zambia</p>
+    <p>Connecting Students. Connecting Opportunities.</p>
+  </footer>
+
+
+  <script>
+
+    /* =========================================
+       SUPABASE CONNECTION
+       ========================================= */
+
+    const SUPABASE_URL = "https://doezgqeqqkqbpdjhsbdj.supabase.co";
+
+    const SUPABASE_KEY = "sb_publishable_X7zw25SKdYhokEyhF-SmqA_qkZgWW8l";
+
+    const supabaseClient = supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_KEY
+    );
+
+
+    /* =========================================
+       VARIABLES
+       ========================================= */
+
+    let allListings = [];
+
+
+    /* =========================================
+       LOAD ACCOMMODATION
+       ========================================= */
+
+    async function loadAccommodation() {
+
+      const loading = document.getElementById("loading");
+      const listings = document.getElementById("listings");
+      const errorBox = document.getElementById("error");
+
+      loading.style.display = "block";
+      listings.innerHTML = "";
+      errorBox.style.display = "none";
+
+      const { data, error } = await supabaseClient
+        .from("accommodations")
+        .select("*")
+        .eq("available", true)
+        .order("created_at", { ascending: false });
+
+      loading.style.display = "none";
+
+      if (error) {
+
+        console.error(error);
+
+        errorBox.textContent =
+          "Unable to load accommodation. Please try again.";
+
+        errorBox.style.display = "block";
+
+        return;
+      }
+
+      allListings = data || [];
+
+      displayListings(allListings);
+    }
+
+
+    /* =========================================
+       DISPLAY LISTINGS
+       ========================================= */
+
+    function displayListings(data) {
+
+      const container = document.getElementById("listings");
+      const empty = document.getElementById("empty");
+
+      container.innerHTML = "";
+
+      if (!data || data.length === 0) {
+
+        empty.style.display = "block";
+
+        return;
+      }
+
+      empty.style.display = "none";
+
+
+      data.forEach(listing => {
+
+        const card = document.createElement("div");
+
+        card.className = "card";
+
+
+        const price = Number(listing.price || 0)
+          .toLocaleString("en-ZM");
+
+
+        let contactButton = "";
+
+        if (listing.contact) {
+
+          const phone = String(listing.contact)
+            .replace(/\s+/g, "");
+
+          contactButton = `
+            <a
+              href="tel:${phone}"
+              class="contact-btn"
+            >
+              📞 Contact Landlord
+            </a>
+          `;
+
+        } else {
+
+          contactButton = `
+            <div class="contact-btn">
+              Contact details unavailable
+            </div>
+          `;
+        }
+
+
+        card.innerHTML = `
+
+          <div class="card-top">
+            🏠
+          </div>
+
+          <div class="card-content">
+
+            <span class="available">
+              ● Available
+            </span>
+
+            <h3>
+              ${escapeHTML(listing.title)}
+            </h3>
+
+            <div class="detail">
+              📍 ${escapeHTML(listing.location)}
+            </div>
+
+            <div class="detail">
+              🛏️ ${escapeHTML(listing.room_type)}
+            </div>
+
+            <div class="price">
+              K${price} / month
+            </div>
+
+            <div class="description">
+              ${escapeHTML(
+                listing.description ||
+                "No description provided."
+              )}
+            </div>
+
+            ${contactButton}
+
+          </div>
+
+        `;
+
+        container.appendChild(card);
+
+      });
+
+    }
+
+
+    /* =========================================
+       SEARCH & FILTER
+       ========================================= */
+
+    function applyFilters() {
+
+      const search =
+        document.getElementById("search")
+          .value
+          .toLowerCase()
+          .trim();
+
+      const roomType =
+        document.getElementById("roomType").value;
+
+      const sortPrice =
+        document.getElementById("sortPrice").value;
+
+
+      let filtered = allListings.filter(listing => {
+
+        const matchesSearch =
+          !search ||
+          String(listing.title || "")
+            .toLowerCase()
+            .includes(search) ||
+          String(listing.location || "")
+            .toLowerCase()
+            .includes(search);
+
+
+        const matchesRoom =
+          !roomType ||
+          listing.room_type === roomType;
+
+
+        return matchesSearch && matchesRoom;
+
+      });
+
+
+      if (      position: sticky;
       top: 0;
       z-index: 1000;
     }
