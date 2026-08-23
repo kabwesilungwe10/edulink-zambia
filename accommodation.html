@@ -299,11 +299,10 @@
 
     const SUPABASE_KEY = "sb_publishable_X7zw25SKdYhokEyhF-SmqA_qkZgWW8l";
 
-    const supabaseClient = supabase.createClient(
-      SUPABASE_URL,
-      SUPABASE_KEY
-    );
-
+    const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_KEY
+);
 
     /* =========================================
        VARIABLES
