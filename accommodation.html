@@ -6,7 +6,6 @@
 
   <title>Accommodation | EduLink Zambia</title>
 
-  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -14,339 +13,281 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
+      font-family: Arial, sans-serif;
     }
 
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f7fb;
-      color: #1f2937;
+      background: #f5f8fc;
+      color: #172033;
     }
 
     header {
-      background: #075ca8;
+      background: #0756a3;
       color: white;
-      padding: 18px 20px;
+      padding: 17px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .logo {
-      font-size: 25px;
+      font-size: 20px;
       font-weight: bold;
     }
 
-    .dashboard-link {
+    header a {
       color: white;
       text-decoration: none;
-      font-size: 16px;
     }
 
     .hero {
-      background: #075ca8;
+      background: #0756a3;
       color: white;
       text-align: center;
-      padding: 35px 20px 45px;
+      padding: 35px 20px;
     }
 
     .hero h1 {
-      font-size: 36px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      font-size: 18px;
-      opacity: 0.95;
+      font-size: 30px;
+      margin-bottom: 10px;
     }
 
     .container {
       width: 92%;
       max-width: 1100px;
-      margin: 30px auto;
+      margin: 25px auto;
     }
 
     .filters {
       background: white;
-      padding: 22px;
-      border-radius: 18px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.07);
-      margin-bottom: 30px;
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 25px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
     }
 
-    .filters input,
-    .filters select {
+    input,
+    select {
       width: 100%;
-      padding: 15px;
-      margin-bottom: 14px;
-      border: 1px solid #d1d5db;
-      border-radius: 10px;
-      font-size: 16px;
+      padding: 13px;
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+      font-size: 15px;
+      margin-bottom: 10px;
       background: white;
     }
 
-    .filter-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-    }
-
-    .section-title {
-      color: #075ca8;
-      font-size: 28px;
-      margin-bottom: 20px;
-    }
-
-    #loading {
-      text-align: center;
-      padding: 40px;
-      color: #6b7280;
-      font-size: 18px;
-    }
-
-    #error {
-      display: none;
-      background: #fee2e2;
-      color: #991b1b;
-      padding: 16px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
-
-    #empty {
-      display: none;
-      text-align: center;
-      background: white;
-      padding: 45px 20px;
-      border-radius: 15px;
-      color: #6b7280;
-      font-size: 18px;
-    }
-
-    .listings {
+    .grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
+      gap: 18px;
     }
 
     .card {
       background: white;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 5px 18px rgba(0,0,0,0.08);
-    }
-
-    .card-top {
-      background: #e8f2fc;
-      padding: 25px;
-      text-align: center;
-      font-size: 45px;
-    }
-
-    .card-content {
+      border-radius: 12px;
       padding: 20px;
+      box-shadow: 0 3px 12px rgba(0,0,0,.06);
+    }
+
+    .icon {
+      font-size: 40px;
+      margin-bottom: 12px;
     }
 
     .card h3 {
-      color: #075ca8;
-      font-size: 21px;
-      margin-bottom: 12px;
+      color: #0756a3;
+      margin-bottom: 10px;
     }
 
     .detail {
       margin: 8px 0;
-      color: #4b5563;
-      font-size: 15px;
+      color: #667085;
     }
 
     .price {
-      color: #075ca8;
-      font-size: 21px;
+      color: #0756a3;
+      font-size: 20px;
       font-weight: bold;
-      margin: 15px 0;
+      margin: 14px 0;
     }
 
     .description {
-      color: #6b7280;
+      color: #667085;
       line-height: 1.5;
       margin-bottom: 15px;
     }
 
-    .contact-btn {
+    .contact {
       display: block;
-      width: 100%;
       text-align: center;
-      background: #075ca8;
+      padding: 11px;
+      background: #0756a3;
       color: white;
       text-decoration: none;
-      padding: 13px;
-      border-radius: 9px;
-      font-weight: bold;
+      border-radius: 7px;
     }
 
-    .contact-btn:hover {
-      background: #064b89;
+    #loading,
+    #empty,
+    #error {
+      text-align: center;
+      padding: 35px 20px;
     }
 
-    .available {
-      display: inline-block;
-      background: #dcfce7;
-      color: #166534;
-      padding: 5px 9px;
-      border-radius: 20px;
-      font-size: 13px;
-      margin-bottom: 10px;
+    #empty,
+    #error {
+      display: none;
+      background: white;
+      border-radius: 12px;
+    }
+
+    #error {
+      color: #b42318;
     }
 
     footer {
-      margin-top: 60px;
-      background: #111827;
+      margin-top: 40px;
+      background: #101828;
       color: white;
       text-align: center;
       padding: 25px;
-    }
-
-    @media (max-width: 600px) {
-      .hero h1 {
-        font-size: 30px;
-      }
-
-      .filter-row {
-        grid-template-columns: 1fr;
-      }
-
-      .logo {
-        font-size: 21px;
-      }
     }
   </style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">🎓 EduLink Zambia</div>
+<header>
+  <div class="logo">🎓 EduLink Zambia</div>
+  <a href="dashboard.html">← Dashboard</a>
+</header>
 
-    <a href="dashboard.html" class="dashboard-link">
-      ← Dashboard
-    </a>
-  </header>
+<section class="hero">
+  <h1>Student Accommodation</h1>
+  <p>Find accommodation near your institution.</p>
+</section>
 
-  <section class="hero">
-    <h1>Student Accommodation</h1>
-    <p>Find safe and affordable accommodation across Zambia.</p>
-  </section>
+<main class="container">
 
-  <main class="container">
+  <div class="filters">
 
-    <section class="filters">
+    <input
+      type="search"
+      id="search"
+      placeholder="🔎 Search location or accommodation..."
+    >
 
-      <input
-        type="text"
-        id="search"
-        placeholder="🔎 Search by title or location..."
-      >
+    <select id="roomType">
+      <option value="">All Room Types</option>
+      <option value="Single Room">Single Room</option>
+      <option value="Self Contained">Self Contained</option>
+      <option value="Shared Room">Shared Room</option>
+      <option value="House">House</option>
+      <option value="Flat">Flat</option>
+    </select>
 
-      <div class="filter-row">
+  </div>
 
-        <select id="roomType">
-          <option value="">All Room Types</option>
-          <option value="Single Room">Single Room</option>
-          <option value="Self Contained">Self Contained</option>
-          <option value="Shared Room">Shared Room</option>
-          <option value="House">House</option>
-          <option value="Flat">Flat</option>
-        </select>
+  <h2 style="color:#0756a3; margin-bottom:15px;">
+    Available Accommodation
+  </h2>
 
-        <select id="sortPrice">
-          <option value="">Sort by Price</option>
-          <option value="low">Lowest Price</option>
-          <option value="high">Highest Price</option>
-        </select>
+  <div id="loading">
+    ⏳ Loading accommodation...
+  </div>
 
-      </div>
+  <div id="error"></div>
 
-    </section>
+  <div id="empty">
+    🏠 No accommodation listings found.
+  </div>
 
-    <div id="error"></div>
+  <div id="listings" class="grid"></div>
 
-    <h2 class="section-title">Available Accommodation</h2>
+</main>
 
-    <div id="loading">
-      Loading accommodation...
-    </div>
-
-    <div id="empty">
-      🏠 No accommodation listings found.
-    </div>
-
-    <div id="listings" class="listings"></div>
-
-  </main>
-
-  <footer>
-    <p>© 2026 EduLink Zambia</p>
-    <p>Connecting Students. Connecting Opportunities.</p>
-  </footer>
+<footer>
+  <p>🎓 EduLink Zambia</p>
+  <p style="margin-top:7px;">
+    Connecting Students. Connecting Opportunities.
+  </p>
+</footer>
 
 
-  <script>
+<script>
 
-    /* =========================================
-       SUPABASE CONNECTION
-       ========================================= */
+const SUPABASE_URL =
+  "YOUR_PROJECT_URL";
 
-    const SUPABASE_URL = "https://doezgqeqqkqbpdjhsbdj.supabase.co";
-
-    const SUPABASE_KEY = "sb_publishable_X7zw25SKdYhokEyhF-SmqA_qkZgWW8l";
-
-    const supabaseClient = window.supabase.createClient(
-  SUPABASE_URL,
-  SUPABASE_KEY
-);
-
-    /* =========================================
-       VARIABLES
-       ========================================= */
-
-    let allListings = [];
+const SUPABASE_KEY =
+  "YOUR_PUBLISHABLE_KEY";
 
 
-    /* =========================================
-       LOAD ACCOMMODATION
-       ========================================= */
+/* Create Supabase client */
 
-    async function loadAccommodation() {
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
 
-  const loading = document.getElementById("loading");
-  const listings = document.getElementById("listings");
-  const errorBox = document.getElementById("error");
 
-  loading.style.display = "block";
-  errorBox.style.display = "none";
+let allListings = [];
+
+
+/* Load accommodation */
+
+async function loadAccommodation() {
+
+  const loading =
+    document.getElementById("loading");
+
+  const errorBox =
+    document.getElementById("error");
+
+  const empty =
+    document.getElementById("empty");
 
   try {
 
-    const { data, error } = await supabaseClient
-      .from("accommodations")
-      .select("*")
-      .eq("available", true)
-      .order("created_at", {
-        ascending: false
-      });
+    console.log("Connecting to Supabase...");
 
-    if (error) {
-      throw error;
+    const result =
+      await supabaseClient
+        .from("accommodations")
+        .select("*")
+        .eq("available", true)
+        .order("created_at", {
+          ascending: false
+        });
+
+    console.log("Supabase response:", result);
+
+    if (result.error) {
+      throw result.error;
     }
 
-    allListings = data || [];
+    allListings =
+      result.data || [];
 
     loading.style.display = "none";
+
+    if (allListings.length === 0) {
+
+      empty.style.display = "block";
+
+      return;
+    }
 
     displayListings(allListings);
 
   } catch (error) {
 
-    console.error("Accommodation error:", error);
+    console.error(
+      "Accommodation error:",
+      error
+    );
 
     loading.style.display = "none";
 
@@ -356,931 +297,189 @@
 
     errorBox.style.display = "block";
   }
-    }
 
-      const loading = document.getElementById("loading");
-      const listings = document.getElementById("listings");
-      const errorBox = document.getElementById("error");
-
-      loading.style.display = "block";
-      listings.innerHTML = "";
-      errorBox.style.display = "none";
-
-      const { data, error } = await supabaseClient
-        .from("accommodations")
-        .select("*")
-        .eq("available", true)
-        .order("created_at", { ascending: false });
-
-      loading.style.display = "none";
-
-      if (error) {
-
-        console.error(error);
-
-        errorBox.textContent =
-          "Unable to load accommodation. Please try again.";
-
-        errorBox.style.display = "block";
-
-        return;
-      }
-
-      allListings = data || [];
-
-      displayListings(allListings);
-    }
+}
 
 
-    /* =========================================
-       DISPLAY LISTINGS
-       ========================================= */
+/* Display listings */
 
-    function displayListings(data) {
+function displayListings(listings) {
 
-      const container = document.getElementById("listings");
-      const empty = document.getElementById("empty");
+  const container =
+    document.getElementById("listings");
 
-      container.innerHTML = "";
+  const empty =
+    document.getElementById("empty");
 
-      if (!data || data.length === 0) {
+  container.innerHTML = "";
 
-        empty.style.display = "block";
+  if (listings.length === 0) {
 
-        return;
-      }
+    empty.style.display = "block";
 
-      empty.style.display = "none";
+    return;
+  }
 
-
-      data.forEach(listing => {
-
-        const card = document.createElement("div");
-
-        card.className = "card";
+  empty.style.display = "none";
 
 
-        const price = Number(listing.price || 0)
-          .toLocaleString("en-ZM");
+  listings.forEach(listing => {
+
+    const card =
+      document.createElement("div");
+
+    card.className = "card";
 
 
-        let contactButton = "";
-
-        if (listing.contact) {
-
-          const phone = String(listing.contact)
-            .replace(/\s+/g, "");
-
-          contactButton = `
-            <a
-              href="tel:${phone}"
-              class="contact-btn"
-            >
-              📞 Contact Landlord
-            </a>
-          `;
-
-        } else {
-
-          contactButton = `
-            <div class="contact-btn">
-              Contact details unavailable
-            </div>
-          `;
-        }
+    const price =
+      Number(listing.price || 0)
+        .toLocaleString("en-ZM");
 
 
-        card.innerHTML = `
+    let contact = "";
 
-          <div class="card-top">
-            🏠
-          </div>
+    if (listing.contact) {
 
-          <div class="card-content">
-
-            <span class="available">
-              ● Available
-            </span>
-
-            <h3>
-              ${escapeHTML(listing.title)}
-            </h3>
-
-            <div class="detail">
-              📍 ${escapeHTML(listing.location)}
-            </div>
-
-            <div class="detail">
-              🛏️ ${escapeHTML(listing.room_type)}
-            </div>
-
-            <div class="price">
-              K${price} / month
-            </div>
-
-            <div class="description">
-              ${escapeHTML(
-                listing.description ||
-                "No description provided."
-              )}
-            </div>
-
-            ${contactButton}
-
-          </div>
-
-        `;
-
-        container.appendChild(card);
-
-      });
+      contact = `
+        <a
+          class="contact"
+          href="tel:${escapeHTML(listing.contact)}"
+        >
+          📞 Contact Landlord
+        </a>
+      `;
 
     }
 
 
-    /* =========================================
-       SEARCH & FILTER
-       ========================================= */
+    card.innerHTML = `
 
-    function applyFilters() {
-
-      const search =
-        document.getElementById("search")
-          .value
-          .toLowerCase()
-          .trim();
-
-      const roomType =
-        document.getElementById("roomType").value;
-
-      const sortPrice =
-        document.getElementById("sortPrice").value;
-
-
-      let filtered = allListings.filter(listing => {
-
-        const matchesSearch =
-          !search ||
-          String(listing.title || "")
-            .toLowerCase()
-            .includes(search) ||
-          String(listing.location || "")
-            .toLowerCase()
-            .includes(search);
-
-
-        const matchesRoom =
-          !roomType ||
-          listing.room_type === roomType;
-
-
-        return matchesSearch && matchesRoom;
-
-      });
-
-
-      if (      position: sticky;
-      top: 0;
-      z-index: 1000;
-    }
-
-    .logo {
-      font-size: 20px;
-      font-weight: bold;
-    }
-
-    .back {
-      color: white;
-      text-decoration: none;
-      font-size: 14px;
-    }
-
-    .hero {
-      background: linear-gradient(
-        135deg,
-        #0756a3,
-        #0879d9
-      );
-
-      color: white;
-      text-align: center;
-
-      padding: 50px 20px;
-    }
-
-    .hero h1 {
-      font-size: 34px;
-      margin-bottom: 12px;
-    }
-
-    .hero p {
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 35px 20px;
-    }
-
-    .filters {
-      background: white;
-      padding: 20px;
-
-      border-radius: 12px;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,0.07);
-
-      margin-bottom: 30px;
-    }
-
-    .filters h2 {
-      margin-bottom: 15px;
-      color: #0756a3;
-    }
-
-    .filter-grid {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-    }
-
-    .filters input,
-    .filters select {
-
-      width: 100%;
-
-      padding: 13px;
-
-      border: 1px solid #d0d5dd;
-
-      border-radius: 8px;
-
-      font-size: 15px;
-
-      outline: none;
-    }
-
-    .listing-grid {
-
-      display: grid;
-
-      grid-template-columns: 1fr;
-
-      gap: 20px;
-    }
-
-    .listing {
-
-      background: white;
-
-      border-radius: 12px;
-
-      overflow: hidden;
-
-      box-shadow:
-        0 3px 12px rgba(0,0,0,0.07);
-    }
-
-    .listing-image {
-
-      height: 170px;
-
-      background: linear-gradient(
-        135deg,
-        #dbeafe,
-        #bfdbfe
-      );
-
-      display: flex;
-
-      align-items: center;
-
-      justify-content: center;
-
-      font-size: 55px;
-    }
-
-    .listing-content {
-
-      padding: 20px;
-    }
-
-    .listing-content h2 {
-
-      color: #0756a3;
-
-      font-size: 20px;
-
-      margin-bottom: 8px;
-    }
-
-    .location {
-
-      color: #667085;
-
-      font-size: 14px;
-
-      margin-bottom: 12px;
-    }
-
-    .details {
-
-      display: flex;
-
-      flex-wrap: wrap;
-
-      gap: 7px;
-
-      margin-bottom: 15px;
-    }
-
-    .tag {
-
-      background: #e8f2ff;
-
-      color: #0756a3;
-
-      padding: 6px 9px;
-
-      border-radius: 6px;
-
-      font-size: 12px;
-    }
-
-    .price {
-
-      font-size: 20px;
-
-      font-weight: bold;
-
-      margin-bottom: 15px;
-    }
-
-    .button {
-
-      display: inline-block;
-
-      background: #0756a3;
-
-      color: white;
-
-      padding: 11px 16px;
-
-      border-radius: 7px;
-
-      text-decoration: none;
-
-      border: none;
-
-      font-weight: bold;
-
-      font-size: 14px;
-
-    }
-
-    .landlord {
-
-      background: #e8f2ff;
-
-      padding: 25px;
-
-      border-radius: 12px;
-
-      margin-top: 35px;
-
-      text-align: center;
-    }
-
-    .landlord h2 {
-
-      color: #0756a3;
-
-      margin-bottom: 10px;
-
-    }
-
-    .landlord p {
-
-      color: #667085;
-
-      line-height: 1.6;
-
-      margin-bottom: 18px;
-
-    }
-
-    footer {
-
-      background: #101828;
-
-      color: white;
-
-      text-align: center;
-
-      padding: 30px 15px;
-
-      margin-top: 30px;
-
-    }
-
-    footer p {
-
-      color: #d0d5dd;
-
-      margin-top: 7px;
-
-    }
-
-    @media (min-width: 700px) {
-
-      .filter-grid {
-
-        grid-template-columns:
-          repeat(3, 1fr);
-
-      }
-
-      .listing-grid {
-
-        grid-template-columns:
-          repeat(2, 1fr);
-
-      }
-
-      .hero h1 {
-
-        font-size: 45px;
-
-      }
-
-    }
-
-  </style>
-
-</head>
-
-
-<body>
-
-
-<header>
-
-  <div class="logo">
-    🎓 EduLink Zambia
-  </div>
-
-  <a
-    href="index.html"
-    class="back">
-
-    ← Back Home
-
-  </a>
-
-</header>
-
-
-<section class="hero">
-
-  <h1>Student Accommodation 🏠</h1>
-
-  <p>
-    Find a place to stay near your university or college.
-  </p>
-
-</section>
-
-
-<main class="container">
-
-
-  <!-- FILTERS -->
-
-  <section class="filters">
-
-    <h2>Find Accommodation</h2>
-
-    <div class="filter-grid">
-
-
-      <input
-        type="text"
-        id="search"
-        placeholder="Search location..."
-        onkeyup="filterListings()">
-
-
-      <select
-        id="institution"
-        onchange="filterListings()">
-
-        <option value="">
-          All Institutions
-        </option>
-
-        <option value="UNZA">
-          University of Zambia
-        </option>
-
-        <option value="CBU">
-          Copperbelt University
-        </option>
-
-        <option value="UNILUS">
-          University of Lusaka
-        </option>
-
-        <option value="MU">
-          Mulungushi University
-        </option>
-
-      </select>
-
-
-      <select
-        id="type"
-        onchange="filterListings()">
-
-        <option value="">
-          All Accommodation
-        </option>
-
-        <option value="room">
-          Single Room
-        </option>
-
-        <option value="shared">
-          Shared Room
-        </option>
-
-        <option value="house">
-          House
-        </option>
-
-      </select>
-
-    </div>
-
-  </section>
-
-
-  <!-- LISTINGS -->
-
-  <section>
-
-    <div
-      class="listing-grid"
-      id="listingGrid">
-
-
-      <!-- LISTING 1 -->
-
-      <div
-        class="listing"
-        data-location="lusaka"
-        data-institution="UNZA"
-        data-type="room">
-
-        <div class="listing-image">
-          🏠
-        </div>
-
-        <div class="listing-content">
-
-          <h2>
-            Student Room — Lusaka
-          </h2>
-
-          <div class="location">
-            📍 Near University of Zambia
-          </div>
-
-          <div class="details">
-
-            <span class="tag">
-              UNZA
-            </span>
-
-            <span class="tag">
-              Single Room
-            </span>
-
-            <span class="tag">
-              Wi-Fi
-            </span>
-
-          </div>
-
-          <div class="price">
-            K1,200 / month
-          </div>
-
-          <a
-            href="#"
-            class="button">
-
-            View Listing
-
-          </a>
-
-        </div>
-
+      <div class="icon">
+        🏠
       </div>
 
+      <h3>
+        ${escapeHTML(listing.title)}
+      </h3>
 
-      <!-- LISTING 2 -->
-
-      <div
-        class="listing"
-        data-location="lusaka"
-        data-institution="UNILUS"
-        data-type="shared">
-
-        <div class="listing-image">
-          🏠
-        </div>
-
-        <div class="listing-content">
-
-          <h2>
-            Shared Student House
-          </h2>
-
-          <div class="location">
-            📍 Lusaka
-          </div>
-
-          <div class="details">
-
-            <span class="tag">
-              UNILUS
-            </span>
-
-            <span class="tag">
-              Shared
-            </span>
-
-            <span class="tag">
-              Electricity
-            </span>
-
-          </div>
-
-          <div class="price">
-            K900 / month
-          </div>
-
-          <a
-            href="#"
-            class="button">
-
-            View Listing
-
-          </a>
-
-        </div>
-
+      <div class="detail">
+        📍 ${escapeHTML(listing.location)}
       </div>
 
-
-      <!-- LISTING 3 -->
-
-      <div
-        class="listing"
-        data-location="kitwe"
-        data-institution="CBU"
-        data-type="room">
-
-        <div class="listing-image">
-          🏠
-        </div>
-
-        <div class="listing-content">
-
-          <h2>
-            Student Room — Kitwe
-          </h2>
-
-          <div class="location">
-            📍 Near Copperbelt University
-          </div>
-
-          <div class="details">
-
-            <span class="tag">
-              CBU
-            </span>
-
-            <span class="tag">
-              Single Room
-            </span>
-
-            <span class="tag">
-              Water Included
-            </span>
-
-          </div>
-
-          <div class="price">
-            K1,000 / month
-          </div>
-
-          <a
-            href="#"
-            class="button">
-
-            View Listing
-
-          </a>
-
-        </div>
-
+      <div class="detail">
+        🛏️ ${escapeHTML(listing.room_type)}
       </div>
 
-
-      <!-- LISTING 4 -->
-
-      <div
-        class="listing"
-        data-location="kab​we"
-        data-institution="MU"
-        data-type="house">
-
-        <div class="listing-image">
-          🏠
-        </div>
-
-        <div class="listing-content">
-
-          <h2>
-            Student House — Kabwe
-          </h2>
-
-          <div class="location">
-            📍 Near Mulungushi University
-          </div>
-
-          <div class="details">
-
-            <span class="tag">
-              MU
-            </span>
-
-            <span class="tag">
-              House
-            </span>
-
-            <span class="tag">
-              Secure Area
-            </span>
-
-          </div>
-
-          <div class="price">
-            K1,500 / month
-          </div>
-
-          <a
-            href="#"
-            class="button">
-
-            View Listing
-
-          </a>
-
-        </div>
-
+      <div class="price">
+        K${price} / month
       </div>
 
+      <div class="description">
+        ${escapeHTML(
+          listing.description ||
+          "No description available."
+        )}
+      </div>
 
-    </div>
+      ${contact}
 
-  </section>
+    `;
 
-
-  <!-- LANDLORD CTA -->
-
-  <section class="landlord">
-
-    <h2>
-      Are You a Landlord? 🏠
-    </h2>
-
-    <p>
-      Advertise your vacant rooms and houses
-      to students looking for accommodation.
-    </p>
-
-    <a
-      href="#"
-      class="button">
-
-      List Your Property
-
-    </a>
-
-  </section>
-
-
-</main>
-
-
-<footer>
-
-  <h3>🎓 EduLink Zambia</h3>
-
-  <p>
-    Connecting Students. Connecting Opportunities.
-  </p>
-
-  <p>
-    © 2026 EduLink Zambia
-  </p>
-
-</footer>
-
-
-<script>
-
-
-function filterListings() {
-
-  let search =
-    document
-      .getElementById("search")
-      .value
-      .toLowerCase();
-
-  let institution =
-    document
-      .getElementById("institution")
-      .value;
-
-  let type =
-    document
-      .getElementById("type")
-      .value;
-
-
-  let listings =
-    document.querySelectorAll(".listing");
-
-
-  listings.forEach(function(listing) {
-
-    let location =
-      listing
-        .dataset
-        .location
-        .toLowerCase();
-
-    let listingInstitution =
-      listing
-        .dataset
-        .institution;
-
-    let listingType =
-      listing
-        .dataset
-        .type;
-
-
-    let matchesSearch =
-      location.includes(search);
-
-    let matchesInstitution =
-      institution === "" ||
-      listingInstitution === institution;
-
-    let matchesType =
-      type === "" ||
-      listingType === type;
-
-
-    if (
-      matchesSearch &&
-      matchesInstitution &&
-      matchesType
-    ) {
-
-      listing.style.display = "block";
-
-    } else {
-
-      listing.style.display = "none";
-
-    }
+    container.appendChild(card);
 
   });
 
 }
 
 
+/* Search */
+
+function filterListings() {
+
+  const search =
+    document
+      .getElementById("search")
+      .value
+      .toLowerCase()
+      .trim();
+
+  const room =
+    document
+      .getElementById("roomType")
+      .value;
+
+
+  const filtered =
+    allListings.filter(listing => {
+
+      const text =
+        (
+          listing.title +
+          " " +
+          listing.location
+        ).toLowerCase();
+
+
+      const searchMatch =
+        !search ||
+        text.includes(search);
+
+
+      const roomMatch =
+        !room ||
+        listing.room_type === room;
+
+
+      return (
+        searchMatch &&
+        roomMatch
+      );
+
+    });
+
+
+  displayListings(filtered);
+
+}
+
+
+/* Basic HTML escaping */
+
+function escapeHTML(value) {
+
+  const div =
+    document.createElement("div");
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+}
+
+
+/* Filters */
+
+document
+  .getElementById("search")
+  .addEventListener(
+    "input",
+    filterListings
+  );
+
+
+document
+  .getElementById("roomType")
+  .addEventListener(
+    "change",
+    filterListings
+  );
+
+
+/* Start */
+
+loadAccommodation();
+
 </script>
 
-
 </body>
-
 </html>
