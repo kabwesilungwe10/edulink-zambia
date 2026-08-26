@@ -99,6 +99,29 @@
       resize: vertical;
     }
 
+    /* PHOTO UPLOAD */
+
+    .photo-help {
+      color: #667085;
+      font-size: 13px;
+      margin-top: 6px;
+    }
+
+    #imagePreview {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .preview-image {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 1px solid #d0d5dd;
+    }
+
     .submit-btn {
       width: 100%;
       margin-top: 25px;
@@ -162,6 +185,22 @@
       color: #667085;
     }
 
+    /* LISTING PHOTOS */
+
+    .listing-images {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin: 15px 0;
+    }
+
+    .listing-images img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
     .delete-btn {
       margin-top: 12px;
       padding: 8px 12px;
@@ -181,6 +220,18 @@
       color: white;
       text-align: center;
       padding: 25px;
+    }
+
+    @media (min-width: 600px) {
+
+      #imagePreview {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .listing-images {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
     }
 
   </style>
@@ -326,6 +377,28 @@
       >
 
 
+      <!-- =========================
+           PHOTO UPLOAD
+      ========================== -->
+
+      <label for="propertyImages">
+        📸 Property Photos
+      </label>
+
+      <input
+        type="file"
+        id="propertyImages"
+        accept="image/jpeg,image/png,image/webp"
+        multiple
+      >
+
+      <p class="photo-help">
+        Select up to 5 photos. JPG, PNG or WebP.
+      </p>
+
+      <div id="imagePreview"></div>
+
+
       <button
         type="submit"
         class="submit-btn"
@@ -408,6 +481,14 @@ const supabaseClient =
 
 
 /* =========================================
+   STORAGE BUCKET
+========================================= */
+
+const IMAGE_BUCKET =
+  "accommodation-images";
+
+
+/* =========================================
    CURRENT USER
 ========================================= */
 
@@ -441,6 +522,166 @@ async function getCurrentUser() {
 
 
   return currentUser;
+
+}
+
+
+/* =========================================
+   IMAGE PREVIEW
+========================================= */
+
+
+document
+  .getElementById("propertyImages")
+  .addEventListener(
+    "change",
+    function() {
+
+      const files =
+        Array.from(this.files);
+
+      const preview =
+        document.getElementById(
+          "imagePreview"
+        );
+
+
+      preview.innerHTML =
+        "";
+
+
+      if (files.length > 5) {
+
+        alert(
+          "You can upload a maximum of 5 photos."
+        );
+
+        this.value =
+          "";
+
+        return;
+
+      }
+
+
+      files.forEach(
+        function(file) {
+
+          const reader =
+            new FileReader();
+
+
+          reader.onload =
+            function(event) {
+
+              const img =
+                document.createElement(
+                  "img"
+                );
+
+              img.src =
+                event.target.result;
+
+              img.className =
+                "preview-image";
+
+              preview.appendChild(
+                img
+              );
+
+            };
+
+
+          reader.readAsDataURL(
+            file
+          );
+
+        }
+      );
+
+    }
+  );
+
+
+/* =========================================
+   UPLOAD IMAGES
+========================================= */
+
+
+async function uploadImages(files) {
+
+  const imageUrls = [];
+
+
+  for (
+    let i = 0;
+    i < files.length;
+    i++
+  ) {
+
+    const file =
+      files[i];
+
+
+    const fileExtension =
+      file.name
+        .split(".")
+        .pop();
+
+
+    const fileName =
+      currentUser.id +
+      "/" +
+      crypto.randomUUID() +
+      "." +
+      fileExtension;
+
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .storage
+        .from(IMAGE_BUCKET)
+        .upload(
+          fileName,
+          file,
+          {
+            cacheControl: "3600",
+            upsert: false
+          }
+        );
+
+
+    if (error) {
+
+      throw new Error(
+        "Image upload failed: " +
+        error.message
+      );
+
+    }
+
+
+    const {
+      data
+    } =
+      supabaseClient
+        .storage
+        .from(IMAGE_BUCKET)
+        .getPublicUrl(
+          fileName
+        );
+
+
+    imageUrls.push(
+      data.publicUrl
+    );
+
+  }
+
+
+  return imageUrls;
 
 }
 
@@ -499,79 +740,132 @@ document
         true;
 
       submitBtn.textContent =
-        "Posting...";
+        "Uploading photos...";
 
 
-      const listing = {
+      try {
 
-        landlord_id:
-          currentUser.id,
 
-        title:
-          document
-            .getElementById("title")
-            .value
-            .trim(),
+        /* GET FORM VALUES */
 
-        location:
-          document
-            .getElementById("location")
-            .value
-            .trim(),
+        const imageInput =
+          document.getElementById(
+            "propertyImages"
+          );
 
-        price:
-          Number(
+
+        const files =
+          Array.from(
+            imageInput.files
+          );
+
+
+        if (files.length > 5) {
+
+          throw new Error(
+            "You can upload a maximum of 5 photos."
+          );
+
+        }
+
+
+        /* UPLOAD PHOTOS */
+
+        let imageUrls = [];
+
+
+        if (files.length > 0) {
+
+          imageUrls =
+            await uploadImages(
+              files
+            );
+
+        }
+
+
+        submitBtn.textContent =
+          "Posting accommodation...";
+
+
+        /* CREATE LISTING */
+
+        const listing = {
+
+          landlord_id:
+            currentUser.id,
+
+          title:
             document
-              .getElementById("price")
+              .getElementById("title")
               .value
-          ),
+              .trim(),
 
-        room_type:
-          document
-            .getElementById("room_type")
-            .value,
+          location:
+            document
+              .getElementById("location")
+              .value
+              .trim(),
 
-        description:
-          document
-            .getElementById("description")
-            .value
-            .trim(),
+          price:
+            Number(
+              document
+                .getElementById("price")
+                .value
+            ),
 
-        contact:
-          document
-            .getElementById("contact")
-            .value
-            .trim(),
+          room_type:
+            document
+              .getElementById("room_type")
+              .value,
 
-        available:
-          true
+          description:
+            document
+              .getElementById("description")
+              .value
+              .trim(),
 
-      };
+          contact:
+            document
+              .getElementById("contact")
+              .value
+              .trim(),
+
+          available:
+            true,
+
+          image_urls:
+            imageUrls
+
+        };
 
 
-      const {
-        error
-      } =
-        await supabaseClient
-          .from("accommodations")
-          .insert([listing]);
+        /* INSERT INTO DATABASE */
+
+        const {
+          error
+        } =
+          await supabaseClient
+            .from("accommodations")
+            .insert([
+              listing
+            ]);
 
 
-      if (error) {
+        if (error) {
 
-        console.error(error);
+          throw new Error(
+            error.message
+          );
 
-        errorBox.textContent =
-          "Unable to post accommodation: " +
-          error.message;
+        }
 
-        errorBox.style.display =
-          "block";
 
-      } else {
+        /* SUCCESS */
 
         success.style.display =
           "block";
+
 
         document
           .getElementById(
@@ -579,13 +873,39 @@ document
           )
           .reset();
 
+
+        document
+          .getElementById(
+            "imagePreview"
+          )
+          .innerHTML =
+          "";
+
+
         loadMyListings();
+
+
+      } catch (error) {
+
+        console.error(
+          error
+        );
+
+
+        errorBox.textContent =
+          "Unable to post accommodation: " +
+          error.message;
+
+
+        errorBox.style.display =
+          "block";
 
       }
 
 
       submitBtn.disabled =
         false;
+
 
       submitBtn.textContent =
         "🏠 Post Accommodation";
@@ -672,11 +992,48 @@ async function loadMyListings() {
         "listing";
 
 
+      let imagesHTML =
+        "";
+
+
+      if (
+        listing.image_urls &&
+        listing.image_urls.length > 0
+      ) {
+
+        imagesHTML =
+          `
+          <div class="listing-images">
+
+            ${listing.image_urls
+              .map(
+                function(url) {
+
+                  return `
+                    <img
+                      src="${escapeHTML(url)}"
+                      alt="Accommodation photo"
+                    >
+                  `;
+
+                }
+              )
+              .join("")
+            }
+
+          </div>
+          `;
+
+      }
+
+
       div.innerHTML = `
 
         <h3>
           ${escapeHTML(listing.title)}
         </h3>
+
+        ${imagesHTML}
 
         <p>
           📍 ${escapeHTML(listing.location)}
@@ -740,7 +1097,10 @@ async function deleteListing(id) {
     await supabaseClient
       .from("accommodations")
       .delete()
-      .eq("id", id);
+      .eq(
+        "id",
+        id
+      );
 
 
   if (error) {
@@ -772,8 +1132,10 @@ function escapeHTML(value) {
       "div"
     );
 
+
   div.textContent =
     value ?? "";
+
 
   return div.innerHTML;
 
@@ -806,4 +1168,4 @@ start();
 </script>
 
 </body>
-  </html>
+</html>
