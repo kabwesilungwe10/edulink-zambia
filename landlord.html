@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+  <title>Landlord Dashboard | EduLink Zambia</title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f5f8fc;
+      color: #172033;
+    }
+
+    header {
+      background: #0756a3;
+      color: white;
+      padding: 18px 20px;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .logo {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .back {
+      color: white;
+      text-decoration: none;
+    }
+
+    .container {
+      width: 92%;
+      max-width: 900px;
+      margin: 30px auto;
+    }
+
+    .welcome {
+      margin-bottom: 25px;
+    }
+
+    .welcome h1 {
+      color: #0756a3;
+      margin-bottom: 8px;
+    }
+
+    .form-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+
+      box-shadow:
+        0 4px 15px rgba(0,0,0,0.07);
+    }
+
+    .form-card h2 {
+      color: #0756a3;
+      margin-bottom: 20px;
+    }
+
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 7px;
+      margin-top: 16px;
+    }
+
+    input,
+    select,
+    textarea {
+      width: 100%;
+      padding: 13px;
+
+      border: 1px solid #d0d5dd;
+      border-radius: 8px;
+
+      font-size: 15px;
+      background: white;
+    }
+
+    textarea {
+      min-height: 120px;
+      resize: vertical;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 25px;
+
+      padding: 14px;
+
+      border: none;
+      border-radius: 8px;
+
+      background: #0756a3;
+      color: white;
+
+      font-size: 16px;
+      font-weight: bold;
+
+      cursor: pointer;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+    }
+
+    .message {
+      display: none;
+      margin-top: 18px;
+      padding: 13px;
+      border-radius: 8px;
+    }
+
+    .success {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .error {
+      background: #fee2e2;
+      color: #991b1b;
+    }
+
+    .listings {
+      margin-top: 30px;
+    }
+
+    .listing {
+      background: white;
+      padding: 18px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+
+      box-shadow:
+        0 3px 10px rgba(0,0,0,0.05);
+    }
+
+    .listing h3 {
+      color: #0756a3;
+      margin-bottom: 8px;
+    }
+
+    .listing p {
+      margin: 5px 0;
+      color: #667085;
+    }
+
+    .delete-btn {
+      margin-top: 12px;
+      padding: 8px 12px;
+
+      border: none;
+      border-radius: 6px;
+
+      background: #dc2626;
+      color: white;
+
+      cursor: pointer;
+    }
+
+    footer {
+      margin-top: 40px;
+      background: #101828;
+      color: white;
+      text-align: center;
+      padding: 25px;
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="logo">
+    🎓 EduLink Zambia
+  </div>
+
+  <a href="dashboard.html"
+     class="back">
+    ← Dashboard
+  </a>
+
+</header>
+
+
+<main class="container">
+
+
+  <section class="welcome">
+
+    <h1>
+      🏠 Landlord Dashboard
+    </h1>
+
+    <p>
+      Post and manage your student accommodation listings.
+    </p>
+
+  </section>
+
+
+  <section class="form-card">
+
+    <h2>
+      Post Accommodation
+    </h2>
+
+
+    <form id="accommodationForm">
+
+
+      <label for="title">
+        Property Title
+      </label>
+
+      <input
+        type="text"
+        id="title"
+        placeholder="e.g. Spacious Student Room"
+        required
+      >
+
+
+      <label for="location">
+        Location
+      </label>
+
+      <input
+        type="text"
+        id="location"
+        placeholder="e.g. Roma, Lusaka"
+        required
+      >
+
+
+      <label for="price">
+        Monthly Price (ZMW)
+      </label>
+
+      <input
+        type="number"
+        id="price"
+        placeholder="e.g. 1500"
+        min="0"
+        required
+      >
+
+
+      <label for="room_type">
+        Room Type
+      </label>
+
+      <select
+        id="room_type"
+        required
+      >
+
+        <option value="">
+          Select room type
+        </option>
+
+        <option value="Single Room">
+          Single Room
+        </option>
+
+        <option value="Self Contained">
+          Self Contained
+        </option>
+
+        <option value="Shared Room">
+          Shared Room
+        </option>
+
+        <option value="House">
+          House
+        </option>
+
+        <option value="Flat">
+          Flat
+        </option>
+
+      </select>
+
+
+      <label for="description">
+        Description
+      </label>
+
+      <textarea
+        id="description"
+        placeholder="Describe the accommodation, facilities, distance from campus, etc."
+      ></textarea>
+
+
+      <label for="contact">
+        Contact Number
+      </label>
+
+      <input
+        type="tel"
+        id="contact"
+        placeholder="e.g. 097XXXXXXX"
+        required
+      >
+
+
+      <button
+        type="submit"
+        class="submit-btn"
+        id="submitBtn"
+      >
+        🏠 Post Accommodation
+      </button>
+
+
+    </form>
+
+
+    <div
+      id="successMessage"
+      class="message success"
+    >
+      ✅ Accommodation posted successfully!
+    </div>
+
+
+    <div
+      id="errorMessage"
+      class="message error"
+    ></div>
+
+
+  </section>
+
+
+  <section class="listings">
+
+    <h2 style="color:#0756a3; margin-bottom:15px;">
+      My Listings
+    </h2>
+
+    <div id="myListings">
+      Loading your listings...
+    </div>
+
+  </section>
+
+
+</main>
+
+
+<footer>
+
+  <p>
+    🎓 EduLink Zambia
+  </p>
+
+  <p style="margin-top:7px;">
+    Connecting Students. Connecting Opportunities.
+  </p>
+
+</footer>
+
+
+<script>
+
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+
+const SUPABASE_URL =
+  "YOUR_PROJECT_URL";
+
+
+const SUPABASE_KEY =
+  "YOUR_PUBLISHABLE_KEY";
+
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+/* =========================================
+   CURRENT USER
+========================================= */
+
+
+let currentUser = null;
+
+
+async function getCurrentUser() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .auth
+      .getUser();
+
+
+  if (error || !data.user) {
+
+    window.location.href =
+      "login.html";
+
+    return null;
+
+  }
+
+
+  currentUser =
+    data.user;
+
+
+  return currentUser;
+
+}
+
+
+/* =========================================
+   POST ACCOMMODATION
+========================================= */
+
+
+document
+  .getElementById("accommodationForm")
+  .addEventListener(
+    "submit",
+    async function(event) {
+
+      event.preventDefault();
+
+
+      const submitBtn =
+        document.getElementById(
+          "submitBtn"
+        );
+
+      const success =
+        document.getElementById(
+          "successMessage"
+        );
+
+      const errorBox =
+        document.getElementById(
+          "errorMessage"
+        );
+
+
+      success.style.display =
+        "none";
+
+      errorBox.style.display =
+        "none";
+
+
+      if (!currentUser) {
+
+        errorBox.textContent =
+          "You must be logged in to post accommodation.";
+
+        errorBox.style.display =
+          "block";
+
+        return;
+
+      }
+
+
+      submitBtn.disabled =
+        true;
+
+      submitBtn.textContent =
+        "Posting...";
+
+
+      const listing = {
+
+        landlord_id:
+          currentUser.id,
+
+        title:
+          document
+            .getElementById("title")
+            .value
+            .trim(),
+
+        location:
+          document
+            .getElementById("location")
+            .value
+            .trim(),
+
+        price:
+          Number(
+            document
+              .getElementById("price")
+              .value
+          ),
+
+        room_type:
+          document
+            .getElementById("room_type")
+            .value,
+
+        description:
+          document
+            .getElementById("description")
+            .value
+            .trim(),
+
+        contact:
+          document
+            .getElementById("contact")
+            .value
+            .trim(),
+
+        available:
+          true
+
+      };
+
+
+      const {
+        error
+      } =
+        await supabaseClient
+          .from("accommodations")
+          .insert([listing]);
+
+
+      if (error) {
+
+        console.error(error);
+
+        errorBox.textContent =
+          "Unable to post accommodation: " +
+          error.message;
+
+        errorBox.style.display =
+          "block";
+
+      } else {
+
+        success.style.display =
+          "block";
+
+        document
+          .getElementById(
+            "accommodationForm"
+          )
+          .reset();
+
+        loadMyListings();
+
+      }
+
+
+      submitBtn.disabled =
+        false;
+
+      submitBtn.textContent =
+        "🏠 Post Accommodation";
+
+    }
+  );
+
+
+/* =========================================
+   LOAD MY LISTINGS
+========================================= */
+
+
+async function loadMyListings() {
+
+  const container =
+    document.getElementById(
+      "myListings"
+    );
+
+
+  if (!currentUser) {
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("accommodations")
+      .select("*")
+      .eq(
+        "landlord_id",
+        currentUser.id
+      )
+      .order(
+        "created_at",
+        {
+          ascending: false
+        }
+      );
+
+
+  if (error) {
+
+    container.innerHTML =
+      "Unable to load your listings.";
+
+    console.error(error);
+
+    return;
+
+  }
+
+
+  if (!data || data.length === 0) {
+
+    container.innerHTML =
+      "<p>You haven't posted any accommodation yet.</p>";
+
+    return;
+
+  }
+
+
+  container.innerHTML =
+    "";
+
+
+  data.forEach(
+    function(listing) {
+
+      const div =
+        document.createElement(
+          "div"
+        );
+
+
+      div.className =
+        "listing";
+
+
+      div.innerHTML = `
+
+        <h3>
+          ${escapeHTML(listing.title)}
+        </h3>
+
+        <p>
+          📍 ${escapeHTML(listing.location)}
+        </p>
+
+        <p>
+          💰 K${Number(listing.price).toLocaleString()} / month
+        </p>
+
+        <p>
+          🛏️ ${escapeHTML(listing.room_type)}
+        </p>
+
+        <p>
+          ${listing.available ? "🟢 Available" : "🔴 Occupied"}
+        </p>
+
+        <button
+          class="delete-btn"
+          onclick="deleteListing('${listing.id}')"
+        >
+          🗑️ Delete
+        </button>
+
+      `;
+
+
+      container.appendChild(
+        div
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   DELETE LISTING
+========================================= */
+
+
+async function deleteListing(id) {
+
+  const confirmed =
+    confirm(
+      "Are you sure you want to delete this listing?"
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("accommodations")
+      .delete()
+      .eq("id", id);
+
+
+  if (error) {
+
+    alert(
+      "Unable to delete listing: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  loadMyListings();
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+
+function escapeHTML(value) {
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+
+async function start() {
+
+  const user =
+    await getCurrentUser();
+
+
+  if (user) {
+
+    loadMyListings();
+
+  }
+
+}
+
+
+start();
+
+
+</script>
+
+</body>
+  </html>
