@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Saved Accommodation | EduLink Zambia</title>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background: #f5f8fc;
+  color: #172033;
+}
+
+header {
+  background: #0756a3;
+  color: white;
+  padding: 18px 20px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back {
+  color: white;
+  text-decoration: none;
+}
+
+.container {
+  width: 92%;
+  max-width: 1100px;
+  margin: 30px auto 50px;
+}
+
+h1 {
+  color: #0756a3;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  color: #667085;
+  margin-bottom: 25px;
+}
+
+.listings {
+  display: grid;
+  grid-template-columns:
+    repeat(auto-fit, minmax(290px, 1fr));
+  gap: 22px;
+}
+
+.card {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+
+  box-shadow:
+    0 4px 15px rgba(0,0,0,0.08);
+}
+
+.image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.no-image {
+  height: 220px;
+  background: #e5e7eb;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 55px;
+  color: #98a2b3;
+}
+
+.content {
+  padding: 18px;
+}
+
+.title {
+  color: #0756a3;
+  font-size: 21px;
+  margin-bottom: 12px;
+}
+
+.info {
+  color: #667085;
+  margin: 8px 0;
+}
+
+.price {
+  color: #0756a3;
+  font-size: 20px;
+  font-weight: bold;
+  margin: 12px 0;
+}
+
+.description {
+  color: #667085;
+  line-height: 1.5;
+  margin-top: 10px;
+}
+
+.buttons {
+  display: flex;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.call-btn,
+.whatsapp-btn,
+.remove-btn {
+
+  flex: 1;
+
+  padding: 10px 7px;
+
+  border: none;
+  border-radius: 8px;
+
+  color: white;
+
+  text-align: center;
+  text-decoration: none;
+
+  font-size: 13px;
+  font-weight: bold;
+
+  cursor: pointer;
+}
+
+.call-btn {
+  background: #0756a3;
+}
+
+.whatsapp-btn {
+  background: #16a34a;
+}
+
+.remove-btn {
+  background: #dc2626;
+}
+
+.loading,
+.empty {
+  text-align: center;
+  padding: 60px 20px;
+
+  color: #667085;
+  font-size: 18px;
+
+  grid-column: 1 / -1;
+}
+
+footer {
+  background: #101828;
+  color: white;
+
+  text-align: center;
+
+  padding: 25px;
+}
+
+@media (max-width: 600px) {
+
+  .buttons {
+    flex-wrap: wrap;
+  }
+
+  .call-btn,
+  .whatsapp-btn,
+  .remove-btn {
+    min-width: 30%;
+  }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+  <div class="logo">
+    🎓 EduLink Zambia
+  </div>
+
+  <a
+    href="dashboard.html"
+    class="back"
+  >
+    ← Dashboard
+  </a>
+
+</header>
+
+
+<main class="container">
+
+  <h1>
+    ❤️ My Saved Accommodation
+  </h1>
+
+  <p class="subtitle">
+    Accommodation listings you've saved for later.
+  </p>
+
+
+  <div
+    id="listings"
+    class="listings"
+  >
+
+    <div class="loading">
+      Loading saved accommodation...
+    </div>
+
+  </div>
+
+</main>
+
+
+<footer>
+
+  <p>
+    🎓 EduLink Zambia
+  </p>
+
+  <p style="margin-top:7px;">
+    Connecting Students. Connecting Opportunities.
+  </p>
+
+</footer>
+
+
+<script>
+
+/* =========================================
+   SUPABASE
+========================================= */
+
+const SUPABASE_URL =
+  "https://doezgqeqqkqbpdjhsbdj.supabase.co";
+
+const SUPABASE_KEY =
+  "sb_publishable_X7zw25SKdYhokEyhF-SmqA_qkZgWW8l";
+
+const supabaseClient =
+  window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+  );
+
+
+let currentUser = null;
+
+
+/* =========================================
+   GET USER
+========================================= */
+
+async function getCurrentUser() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .auth
+      .getUser();
+
+
+  if (
+    error ||
+    !data ||
+    !data.user
+  ) {
+
+    window.location.href =
+      "login.html";
+
+    return null;
+
+  }
+
+
+  currentUser =
+    data.user;
+
+  return currentUser;
+
+}
+
+
+/* =========================================
+   LOAD SAVED ACCOMMODATION
+========================================= */
+
+async function loadSavedAccommodation() {
+
+  const container =
+    document.getElementById(
+      "listings"
+    );
+
+
+  container.innerHTML =
+    `<div class="loading">
+      Loading saved accommodation...
+    </div>`;
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("favourites")
+      .select(`
+        id,
+        accommodation_id,
+        accommodations (
+          id,
+          title,
+          location,
+          price,
+          room_type,
+          description,
+          contact,
+          available,
+          image_urls
+        )
+      `)
+      .eq(
+        "user_id",
+        currentUser.id
+      );
+
+
+  if (error) {
+
+    console.error(error);
+
+    container.innerHTML =
+      `<div class="empty">
+        ❌ Unable to load saved accommodation.
+        <br><br>
+        ${escapeHTML(
+          error.message
+        )}
+      </div>`;
+
+    return;
+
+  }
+
+
+  if (
+    !data ||
+    data.length === 0
+  ) {
+
+    container.innerHTML =
+      `<div class="empty">
+        ❤️ You haven't saved any accommodation yet.
+        <br><br>
+        <a
+          href="accommodation.html"
+          style="color:#0756a3;font-weight:bold;"
+        >
+          Browse accommodation
+        </a>
+      </div>`;
+
+    return;
+
+  }
+
+
+  container.innerHTML = "";
+
+
+  data.forEach(
+    function(item) {
+
+      const listing =
+        item.accommodations;
+
+
+      if (!listing) {
+
+        return;
+
+      }
+
+
+      const card =
+        document.createElement(
+          "div"
+        );
+
+
+      card.className =
+        "card";
+
+
+      /* =========================
+         IMAGE
+      ========================= */
+
+      let image = null;
+
+
+      if (
+        Array.isArray(
+          listing.image_urls
+        ) &&
+        listing.image_urls.length
+      ) {
+
+        image =
+          listing.image_urls[0];
+
+      }
+
+      else if (
+        typeof listing.image_urls ===
+        "string"
+      ) {
+
+        try {
+
+          const images =
+            JSON.parse(
+              listing.image_urls
+            );
+
+          if (
+            Array.isArray(images) &&
+            images.length
+          ) {
+
+            image =
+              images[0];
+
+          }
+
+        }
+
+        catch {
+
+          image =
+            listing.image_urls;
+
+        }
+
+      }
+
+
+      const imageHTML =
+        image
+        ? `
+          <img
+            class="image"
+            src="${escapeAttribute(
+              image
+            )}"
+            alt="${escapeAttribute(
+              listing.title
+            )}"
+          >
+        `
+        : `
+          <div class="no-image">
+            🏠
+          </div>
+        `;
+
+
+      /* =========================
+         CARD
+      ========================= */
+
+      card.innerHTML = `
+
+        ${imageHTML}
+
+        <div class="content">
+
+          <h2 class="title">
+            ${escapeHTML(
+              listing.title
+            )}
+          </h2>
+
+          <div class="info">
+            📍 ${escapeHTML(
+              listing.location
+            )}
+          </div>
+
+          <div class="price">
+            💰 K${Number(
+              listing.price || 0
+            ).toLocaleString()}
+            / month
+          </div>
+
+          <div class="info">
+            🛏️ ${escapeHTML(
+              listing.room_type
+            )}
+          </div>
+
+          <div class="info">
+            ${
+              listing.available
+              ? "🟢 Available"
+              : "🔴 Occupied"
+            }
+          </div>
+
+          ${
+            listing.description
+            ? `
+              <div class="description">
+                ${escapeHTML(
+                  listing.description
+                )}
+              </div>
+            `
+            : ""
+          }
+
+          <div class="buttons">
+
+            <a
+              class="call-btn"
+              href="tel:${escapeAttribute(
+                listing.contact
+              )}"
+            >
+              📞 Call
+            </a>
+
+            <a
+              class="whatsapp-btn"
+              href="${whatsappLink(
+                listing.contact
+              )}"
+              target="_blank"
+            >
+              💬 WhatsApp
+            </a>
+
+            <button
+              class="remove-btn"
+              onclick="removeFavourite(
+                '${listing.id}'
+              )"
+            >
+              🗑️ Remove
+            </button>
+
+          </div>
+
+        </div>
+
+      `;
+
+
+      container.appendChild(
+        card
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================
+   REMOVE FAVOURITE
+========================================= */
+
+async function removeFavourite(
+  accommodationId
+) {
+
+  const confirmed =
+    confirm(
+      "Remove this accommodation from your saved listings?"
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("favourites")
+      .delete()
+      .eq(
+        "user_id",
+        currentUser.id
+      )
+      .eq(
+        "accommodation_id",
+        accommodationId
+      );
+
+
+  if (error) {
+
+    alert(
+      "Unable to remove saved accommodation: " +
+      error.message
+    );
+
+    return;
+
+  }
+
+
+  loadSavedAccommodation();
+
+}
+
+
+/* =========================================
+   WHATSAPP
+========================================= */
+
+function whatsappLink(
+  number
+) {
+
+  let phone =
+    String(
+      number || ""
+    )
+    .replace(
+      /\D/g,
+      ""
+    );
+
+
+  if (
+    phone.startsWith("0")
+  ) {
+
+    phone =
+      "260" +
+      phone.substring(1);
+
+  }
+
+
+  return (
+    "https://wa.me/" +
+    phone
+  );
+
+}
+
+
+/* =========================================
+   ESCAPE HTML
+========================================= */
+
+function escapeHTML(
+  value
+) {
+
+  const div =
+    document.createElement(
+      "div"
+    );
+
+  div.textContent =
+    value ?? "";
+
+  return div.innerHTML;
+
+}
+
+
+function escapeAttribute(
+  value
+) {
+
+  return String(
+    value ?? ""
+  )
+  .replace(
+    /&/g,
+    "&amp;"
+  )
+  .replace(
+    /"/g,
+    "&quot;"
+  )
+  .replace(
+    /'/g,
+    "&#039;"
+  )
+  .replace(
+    /</g,
+    "&lt;"
+  )
+  .replace(
+    />/g,
+    "&gt;"
+  );
+
+}
+
+
+/* =========================================
+   START
+========================================= */
+
+async function start() {
+
+  const user =
+    await getCurrentUser();
+
+
+  if (user) {
+
+    await loadSavedAccommodation();
+
+  }
+
+}
+
+
+start();
+
+</script>
+
+</body>
+</html>
