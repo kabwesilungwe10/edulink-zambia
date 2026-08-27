@@ -25,15 +25,10 @@ body {
   color: #172033;
 }
 
-/* =========================
-   HEADER
-========================= */
-
 header {
   background: #0756a3;
   color: white;
   padding: 18px 20px;
-
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -50,15 +45,10 @@ header {
   font-size: 15px;
 }
 
-/* =========================
-   HERO
-========================= */
-
 .hero {
   background: #0756a3;
   color: white;
   text-align: center;
-
   padding: 45px 20px 55px;
 }
 
@@ -72,52 +62,30 @@ header {
   line-height: 1.5;
 }
 
-/* =========================
-   SEARCH
-========================= */
-
 .search-section {
   width: 92%;
   max-width: 900px;
-
   margin: -25px auto 30px;
-
   background: white;
-
   padding: 20px;
-
   border-radius: 15px;
-
-  box-shadow:
-    0 5px 20px rgba(0,0,0,0.08);
+  box-shadow: 0 5px 20px rgba(0,0,0,0.08);
 }
 
 .search-section input,
 .search-section select {
-
   width: 100%;
-
   padding: 14px;
-
   border: 1px solid #d0d5dd;
-
   border-radius: 8px;
-
   font-size: 16px;
-
   margin-bottom: 12px;
-
   background: white;
 }
-
-/* =========================
-   CONTAINER
-========================= */
 
 .container {
   width: 92%;
   max-width: 1100px;
-
   margin: 0 auto 50px;
 }
 
@@ -126,108 +94,57 @@ header {
   margin-bottom: 20px;
 }
 
-/* =========================
-   LISTINGS GRID
-========================= */
-
 .listings {
-
   display: grid;
-
-  grid-template-columns:
-    repeat(auto-fit, minmax(290px, 1fr));
-
+  grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
   gap: 22px;
 }
 
-/* =========================
-   CARD
-========================= */
-
 .card {
-
   background: white;
-
   border-radius: 15px;
-
   overflow: hidden;
-
-  box-shadow:
-    0 4px 15px rgba(0,0,0,0.08);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
 }
 
-/* =========================
-   IMAGE AREA
-========================= */
-
 .image-container {
-
   position: relative;
-
   width: 100%;
-
   height: 230px;
-
   background: #e5e7eb;
-
   overflow: hidden;
 }
 
 .property-image {
-
   width: 100%;
-
   height: 100%;
-
   object-fit: cover;
-
   display: block;
 }
 
 .no-image {
-
   width: 100%;
   height: 100%;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
-
   font-size: 55px;
-
   color: #98a2b3;
 }
 
-/* =========================
-   CAROUSEL BUTTONS
-========================= */
-
 .image-btn {
-
   position: absolute;
-
   top: 50%;
-
   transform: translateY(-50%);
-
   width: 38px;
   height: 38px;
-
   border: none;
-
   border-radius: 50%;
-
   background: rgba(0,0,0,0.55);
-
   color: white;
-
   font-size: 20px;
-
   cursor: pointer;
-
   display: flex;
-
   align-items: center;
   justify-content: center;
 }
@@ -240,75 +157,77 @@ header {
   right: 10px;
 }
 
-/* =========================
-   IMAGE COUNTER
-========================= */
-
 .image-counter {
-
   position: absolute;
-
   bottom: 10px;
   right: 10px;
-
   background: rgba(0,0,0,0.6);
-
   color: white;
-
   padding: 5px 9px;
-
   border-radius: 15px;
-
   font-size: 12px;
 }
 
-/* =========================
-   CARD CONTENT
-========================= */
-
 .card-content {
-
   padding: 18px;
 }
 
 .card-title {
-
   color: #0756a3;
-
   font-size: 21px;
-
   margin-bottom: 12px;
 }
 
 .info {
-
   margin: 8px 0;
-
   color: #667085;
-
   font-size: 15px;
-
   line-height: 1.4;
 }
 
 .price {
-
   color: #0756a3;
-
   font-size: 20px;
-
   font-weight: bold;
-
   margin: 12px 0;
 }
 
 .description {
-
   color: #667085;
-
   line-height: 1.5;
-
   margin-top: 12px;
+}
+
+/* =========================
+   FAVOURITE BUTTON
+========================= */
+
+.favourite-btn {
+  width: 100%;
+  margin-top: 15px;
+  padding: 11px;
+
+  border: 2px solid #0756a3;
+  border-radius: 8px;
+
+  background: white;
+  color: #0756a3;
+
+  font-size: 15px;
+  font-weight: bold;
+
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.favourite-btn:hover {
+  background: #eef6ff;
+}
+
+.favourite-btn.saved {
+  background: #0756a3;
+  color: white;
 }
 
 /* =========================
@@ -316,33 +235,21 @@ header {
 ========================= */
 
 .buttons {
-
   display: flex;
-
   gap: 8px;
-
-  margin-top: 18px;
+  margin-top: 10px;
 }
 
 .call-btn,
 .whatsapp-btn {
-
   flex: 1;
-
   padding: 11px 8px;
-
   border: none;
-
   border-radius: 8px;
-
   color: white;
-
   text-align: center;
-
   text-decoration: none;
-
   font-weight: bold;
-
   font-size: 14px;
 }
 
@@ -354,60 +261,50 @@ header {
   background: #16a34a;
 }
 
-/* =========================
-   EMPTY STATE
-========================= */
-
 .empty {
-
   text-align: center;
-
   padding: 60px 20px;
-
   color: #667085;
-
   font-size: 18px;
-
   grid-column: 1 / -1;
 }
-
-/* =========================
-   LOADING
-========================= */
 
 .loading {
-
   text-align: center;
-
   padding: 50px;
-
   color: #667085;
-
   font-size: 18px;
-
   grid-column: 1 / -1;
 }
 
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-
-  background: #101828;
-
-  color: white;
-
+.message {
+  display: none;
+  width: 92%;
+  max-width: 900px;
+  margin: 20px auto;
+  padding: 14px;
+  border-radius: 8px;
   text-align: center;
-
-  padding: 25px;
-
-  margin-top: 50px;
+  font-weight: bold;
 }
 
-/* =========================
-   MOBILE
-========================= */
+.message.error {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.message.success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+footer {
+  background: #101828;
+  color: white;
+  text-align: center;
+  padding: 25px;
+  margin-top: 50px;
+}
 
 @media (max-width: 600px) {
 
@@ -429,9 +326,7 @@ footer {
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -439,8 +334,7 @@ footer {
     🎓 EduLink Zambia
   </div>
 
-  <a href="dashboard.html"
-     class="back">
+  <a href="dashboard.html" class="back">
     ← Dashboard
   </a>
 
@@ -459,6 +353,12 @@ footer {
   </p>
 
 </section>
+
+
+<div
+  id="message"
+  class="message"
+></div>
 
 
 <section class="search-section">
@@ -558,6 +458,100 @@ const supabaseClient =
 
 let allListings = [];
 
+let currentUser = null;
+
+const imageStates = {};
+
+let favouriteIds = new Set();
+
+
+/* =========================================
+   GET CURRENT USER
+========================================= */
+
+async function getCurrentUser() {
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .auth
+      .getUser();
+
+
+  if (
+    !error &&
+    data &&
+    data.user
+  ) {
+
+    currentUser =
+      data.user;
+
+  }
+
+}
+
+
+/* =========================================
+   LOAD FAVOURITES
+========================================= */
+
+async function loadFavourites() {
+
+  favouriteIds =
+    new Set();
+
+
+  if (!currentUser) {
+
+    return;
+
+  }
+
+
+  const {
+    data,
+    error
+  } =
+    await supabaseClient
+      .from("favourites")
+      .select("accommodation_id")
+      .eq(
+        "user_id",
+        currentUser.id
+      );
+
+
+  if (error) {
+
+    console.error(
+      "Unable to load favourites:",
+      error
+    );
+
+    return;
+
+  }
+
+
+  if (data) {
+
+    data.forEach(
+      function(item) {
+
+        favouriteIds.add(
+          item.accommodation_id
+        );
+
+      }
+    );
+
+  }
+
+}
+
 
 /* =========================================
    LOAD ACCOMMODATION
@@ -566,7 +560,10 @@ let allListings = [];
 async function loadAccommodation() {
 
   const container =
-    document.getElementById("listings");
+    document.getElementById(
+      "listings"
+    );
+
 
   container.innerHTML =
     `<div class="loading">
@@ -581,7 +578,10 @@ async function loadAccommodation() {
     await supabaseClient
       .from("accommodations")
       .select("*")
-      .eq("available", true)
+      .eq(
+        "available",
+        true
+      )
       .order(
         "created_at",
         {
@@ -598,7 +598,9 @@ async function loadAccommodation() {
       `<div class="empty">
         ❌ Unable to load accommodation.
         <br><br>
-        ${escapeHTML(error.message)}
+        ${escapeHTML(
+          error.message
+        )}
       </div>`;
 
     return;
@@ -621,10 +623,14 @@ async function loadAccommodation() {
    DISPLAY LISTINGS
 ========================================= */
 
-function displayListings(listings) {
+function displayListings(
+  listings
+) {
 
   const container =
-    document.getElementById("listings");
+    document.getElementById(
+      "listings"
+    );
 
 
   if (!listings.length) {
@@ -641,38 +647,40 @@ function displayListings(listings) {
   }
 
 
-  container.innerHTML = "";
+  container.innerHTML =
+    "";
 
 
   listings.forEach(
-    function(listing, index) {
+    function(listing) {
 
       const card =
-        document.createElement("div");
+        document.createElement(
+          "div"
+        );
+
 
       card.className =
         "card";
 
 
-      /* -------------------------
+      /* =========================
          IMAGES
-      ------------------------- */
+      ========================= */
 
       let images = [];
 
 
-      if (Array.isArray(listing.image_urls)) {
+      if (
+        Array.isArray(
+          listing.image_urls
+        )
+      ) {
 
         images =
           listing.image_urls;
 
       }
-
-
-      /*
-        Sometimes image_urls may be
-        stored as JSON text.
-      */
 
       else if (
         typeof listing.image_urls === "string"
@@ -687,24 +695,30 @@ function displayListings(listings) {
               listing.image_urls
             );
 
-        } catch {
+        }
+
+        catch {
 
           images =
-            [listing.image_urls];
+            [
+              listing.image_urls
+            ];
 
         }
 
       }
 
 
-      /* -------------------------
+      /* =========================
          IMAGE HTML
-      ------------------------- */
+      ========================= */
 
       let imageHTML = "";
 
 
-      if (images.length > 0) {
+      if (
+        images.length > 0
+      ) {
 
         imageHTML = `
 
@@ -713,8 +727,12 @@ function displayListings(listings) {
             <img
               id="image-${listing.id}"
               class="property-image"
-              src="${escapeAttribute(images[0])}"
-              alt="${escapeAttribute(listing.title)}"
+              src="${escapeAttribute(
+                images[0]
+              )}"
+              alt="${escapeAttribute(
+                listing.title
+              )}"
             >
 
             ${
@@ -723,14 +741,20 @@ function displayListings(listings) {
 
                 <button
                   class="image-btn prev-btn"
-                  onclick="changeImage('${listing.id}', -1)"
+                  onclick="changeImage(
+                    '${listing.id}',
+                    -1
+                  )"
                 >
                   ‹
                 </button>
 
                 <button
                   class="image-btn next-btn"
-                  onclick="changeImage('${listing.id}', 1)"
+                  onclick="changeImage(
+                    '${listing.id}',
+                    1
+                  )"
                 >
                   ›
                 </button>
@@ -750,7 +774,9 @@ function displayListings(listings) {
 
         `;
 
-      } else {
+      }
+
+      else {
 
         imageHTML = `
 
@@ -767,9 +793,19 @@ function displayListings(listings) {
       }
 
 
-      /* -------------------------
+      /* =========================
+         FAVOURITE STATE
+      ========================= */
+
+      const isFavourite =
+        favouriteIds.has(
+          listing.id
+        );
+
+
+      /* =========================
          CARD
-      ------------------------- */
+      ========================= */
 
       card.innerHTML = `
 
@@ -778,11 +814,15 @@ function displayListings(listings) {
         <div class="card-content">
 
           <h3 class="card-title">
-            ${escapeHTML(listing.title)}
+            ${escapeHTML(
+              listing.title
+            )}
           </h3>
 
           <div class="info">
-            📍 ${escapeHTML(listing.location)}
+            📍 ${escapeHTML(
+              listing.location
+            )}
           </div>
 
           <div class="price">
@@ -814,6 +854,28 @@ function displayListings(listings) {
             : ""
           }
 
+
+          <button
+            id="favourite-${listing.id}"
+            class="favourite-btn ${
+              isFavourite
+                ? "saved"
+                : ""
+            }"
+            onclick="toggleFavourite(
+              '${listing.id}'
+            )"
+          >
+
+            ${
+              isFavourite
+              ? "★ Saved"
+              : "☆ Save"
+            }
+
+          </button>
+
+
           <div class="buttons">
 
             <a
@@ -842,18 +904,20 @@ function displayListings(listings) {
       `;
 
 
-      container.appendChild(card);
+      container.appendChild(
+        card
+      );
 
 
-      /*
-        Save images for carousel
-      */
+      imageStates[
+        listing.id
+      ] = {
 
-      imageStates[listing.id] = {
+        images:
+          images,
 
-        images: images,
-
-        index: 0
+        index:
+          0
 
       };
 
@@ -864,11 +928,179 @@ function displayListings(listings) {
 
 
 /* =========================================
-   IMAGE CAROUSEL
+   TOGGLE FAVOURITE
 ========================================= */
 
-const imageStates = {};
+async function toggleFavourite(
+  accommodationId
+) {
 
+  /* -------------------------
+     Check login
+  ------------------------- */
+
+  if (!currentUser) {
+
+    showMessage(
+      "Please log in to save accommodation.",
+      "error"
+    );
+
+    setTimeout(
+      function() {
+
+        window.location.href =
+          "login.html";
+
+      },
+      1200
+    );
+
+    return;
+
+  }
+
+
+  const button =
+    document.getElementById(
+      `favourite-${accommodationId}`
+    );
+
+
+  const isSaved =
+    favouriteIds.has(
+      accommodationId
+    );
+
+
+  /* -------------------------
+     Remove favourite
+  ------------------------- */
+
+  if (isSaved) {
+
+    const {
+      error
+    } =
+      await supabaseClient
+        .from("favourites")
+        .delete()
+        .eq(
+          "user_id",
+          currentUser.id
+        )
+        .eq(
+          "accommodation_id",
+          accommodationId
+        );
+
+
+    if (error) {
+
+      console.error(error);
+
+      showMessage(
+        "Unable to remove favourite: " +
+        error.message,
+        "error"
+      );
+
+      return;
+
+    }
+
+
+    favouriteIds.delete(
+      accommodationId
+    );
+
+
+    if (button) {
+
+      button.classList.remove(
+        "saved"
+      );
+
+      button.textContent =
+        "☆ Save";
+
+    }
+
+
+    showMessage(
+      "Removed from saved accommodation.",
+      "success"
+    );
+
+
+    return;
+
+  }
+
+
+  /* -------------------------
+     Add favourite
+  ------------------------- */
+
+  const {
+    error
+  } =
+    await supabaseClient
+      .from("favourites")
+      .insert({
+
+        user_id:
+          currentUser.id,
+
+        accommodation_id:
+          accommodationId
+
+      });
+
+
+  if (error) {
+
+    console.error(error);
+
+    showMessage(
+      "Unable to save accommodation: " +
+      error.message,
+      "error"
+    );
+
+    return;
+
+  }
+
+
+  favouriteIds.add(
+    accommodationId
+  );
+
+
+  if (button) {
+
+    button.classList.add(
+      "saved"
+    );
+
+    button.textContent =
+      "★ Saved";
+
+  }
+
+
+  showMessage(
+    "Accommodation saved successfully! ⭐",
+    "success"
+  );
+
+}
+
+
+/* =========================================
+   IMAGE CAROUSEL
+========================================= */
 
 function changeImage(
   listingId,
@@ -876,17 +1108,23 @@ function changeImage(
 ) {
 
   const state =
-    imageStates[listingId];
+    imageStates[
+      listingId
+    ];
 
 
-  if (!state || !state.images.length) {
+  if (
+    !state ||
+    !state.images.length
+  ) {
 
     return;
 
   }
 
 
-  state.index += direction;
+  state.index +=
+    direction;
 
 
   if (
@@ -904,7 +1142,8 @@ function changeImage(
     state.images.length
   ) {
 
-    state.index = 0;
+    state.index =
+      0;
 
   }
 
@@ -924,7 +1163,9 @@ function changeImage(
   if (image) {
 
     image.src =
-      state.images[state.index];
+      state.images[
+        state.index
+      ];
 
   }
 
@@ -932,7 +1173,9 @@ function changeImage(
   if (counter) {
 
     counter.textContent =
-      `${state.index + 1} / ${state.images.length}`;
+      `${state.index + 1} / ${
+        state.images.length
+      }`;
 
   }
 
@@ -947,7 +1190,9 @@ function filterListings() {
 
   const search =
     document
-      .getElementById("searchInput")
+      .getElementById(
+        "searchInput"
+      )
       .value
       .toLowerCase()
       .trim();
@@ -955,7 +1200,9 @@ function filterListings() {
 
   const room =
     document
-      .getElementById("roomFilter")
+      .getElementById(
+        "roomFilter"
+      )
       .value;
 
 
@@ -966,32 +1213,28 @@ function filterListings() {
         const matchesSearch =
           !search
           ||
-          (
-            String(
-              listing.title || ""
-            )
-            .toLowerCase()
-            .includes(search)
+          String(
+            listing.title || ""
           )
+          .toLowerCase()
+          .includes(search)
           ||
-          (
-            String(
-              listing.location || ""
-            )
-            .toLowerCase()
-            .includes(search)
-          );
+          String(
+            listing.location || ""
+          )
+          .toLowerCase()
+          .includes(search);
 
 
         const matchesRoom =
           !room
           ||
-          listing.room_type === room;
+          listing.room_type ===
+          room;
 
 
         return (
-          matchesSearch
-          &&
+          matchesSearch &&
           matchesRoom
         );
 
@@ -1015,18 +1258,14 @@ function whatsappLink(
 ) {
 
   let phone =
-    String(number || "")
-      .replace(
-        /\D/g,
-        ""
-      );
+    String(
+      number || ""
+    )
+    .replace(
+      /\D/g,
+      ""
+    );
 
-
-  /*
-    Zambia numbers:
-    076xxxxxxx
-    → 26076xxxxxxx
-  */
 
   if (
     phone.startsWith("0")
@@ -1048,6 +1287,47 @@ function whatsappLink(
 
 
 /* =========================================
+   MESSAGE
+========================================= */
+
+function showMessage(
+  text,
+  type
+) {
+
+  const message =
+    document.getElementById(
+      "message"
+    );
+
+
+  message.textContent =
+    text;
+
+
+  message.className =
+    "message " +
+    type;
+
+
+  message.style.display =
+    "block";
+
+
+  setTimeout(
+    function() {
+
+      message.style.display =
+        "none";
+
+    },
+    3000
+  );
+
+}
+
+
+/* =========================================
    ESCAPE HTML
 ========================================= */
 
@@ -1056,10 +1336,14 @@ function escapeHTML(
 ) {
 
   const div =
-    document.createElement("div");
+    document.createElement(
+      "div"
+    );
+
 
   div.textContent =
     value ?? "";
+
 
   return div.innerHTML;
 
@@ -1102,7 +1386,9 @@ function escapeAttribute(
 ========================================= */
 
 document
-  .getElementById("searchInput")
+  .getElementById(
+    "searchInput"
+  )
   .addEventListener(
     "input",
     filterListings
@@ -1110,7 +1396,9 @@ document
 
 
 document
-  .getElementById("roomFilter")
+  .getElementById(
+    "roomFilter"
+  )
   .addEventListener(
     "change",
     filterListings
@@ -1121,7 +1409,18 @@ document
    START
 ========================================= */
 
-loadAccommodation();
+async function start() {
+
+  await getCurrentUser();
+
+  await loadFavourites();
+
+  await loadAccommodation();
+
+}
+
+
+start();
 
 </script>
 
