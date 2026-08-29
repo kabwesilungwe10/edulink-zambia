@@ -517,8 +517,68 @@ async function getCurrentUser() {
   }
 
 
-  currentUser =
+  const user =
     data.user;
+
+
+  /*
+    Get account type from profiles table
+  */
+
+  const {
+    data: profile,
+    error: profileError
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select("account_type")
+      .eq("id", user.id)
+      .single();
+
+
+  if (profileError) {
+
+    console.error(profileError);
+
+    alert(
+      "Unable to verify account type."
+    );
+
+    window.location.href =
+      "dashboard.html";
+
+    return null;
+
+  }
+
+
+  /*
+    Only landlords can access this page
+  */
+
+  if (
+    profile.account_type
+      .toLowerCase() !== "landlord"
+  ) {
+
+    alert(
+      "Access denied. Only landlord accounts can post accommodation."
+    );
+
+    window.location.href =
+      "dashboard.html";
+
+    return null;
+
+  }
+
+
+  /*
+    Access allowed
+  */
+
+  currentUser =
+    user;
 
 
   return currentUser;
